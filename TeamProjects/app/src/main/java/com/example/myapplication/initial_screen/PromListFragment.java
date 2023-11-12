@@ -1,6 +1,5 @@
 package com.example.myapplication.initial_screen;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -10,11 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.friend_list.friend_received;
-import com.example.myapplication.friend_list.friend_request;
 
 public class PromListFragment extends Fragment {
 

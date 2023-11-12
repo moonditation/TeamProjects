@@ -6,19 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
-import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivityMainBinding;
@@ -49,9 +37,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+
     }
 
-    private  void replaceFragment(Fragment fragment) {
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(
@@ -62,4 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentTransaction.commit();
     }
+
+
+
 }

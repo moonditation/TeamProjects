@@ -3,9 +3,9 @@ package com.example.myapplication.initial_screen;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.friend_list.friend_received;
-import com.example.myapplication.friend_list.friend_request;
+import com.example.myapplication.friend_list.friend_received_fragment;
+import com.example.myapplication.friend_list.friend_requested_fragment;
 
 
 public class FriendListFragment extends Fragment {
@@ -40,18 +40,44 @@ public class FriendListFragment extends Fragment {
         sentRequestsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 버튼 클릭 시 처리할 코드
-                startActivity(new Intent(getActivity(), friend_request.class));
+//                // 버튼 클릭 시 처리할 코드
+//                ((MainActivity) requireActivity()).handleFragmentEvent();
             }
         });
 
         // 받은 요청 목록 버튼
-        AppCompatButton receivedRequestsButton = view.findViewById(R.id.received_list);
-        receivedRequestsButton.setOnClickListener(new View.OnClickListener() {
+        AppCompatButton received_list_button = view.findViewById(R.id.received_list);
+        received_list_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 버튼 클릭 시 처리할 코드
-                startActivity(new Intent(getActivity(), friend_received.class));
+                friend_received_fragment received_fragment = new friend_received_fragment();
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.setCustomAnimations(
+                        R.anim.slide_in_bottom,
+                        R.anim.slide_out_bottom
+                );
+                fragmentTransaction.replace(R.id.frame_layout, received_fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+            }
+        });
+
+        // 받은 요청 목록 버튼
+        AppCompatButton request_list_button = view.findViewById(R.id.request_list);
+        request_list_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                friend_requested_fragment requested_fragment = new friend_requested_fragment();
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.setCustomAnimations(
+                        R.anim.slide_in_bottom,
+                        R.anim.slide_out_bottom
+                );
+                fragmentTransaction.replace(R.id.frame_layout, requested_fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
             }
         });
 

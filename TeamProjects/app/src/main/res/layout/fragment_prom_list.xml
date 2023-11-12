@@ -131,6 +131,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textColor="@color/purple_500"
+                            android:text="버튼을 눌러 약속 확인하기"
+                            />
                     </LinearLayout>
                 </ScrollView>
             </LinearLayout>

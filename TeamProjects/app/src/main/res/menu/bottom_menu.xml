@@ -9,7 +9,7 @@
         />
     <item
         android:id="@+id/make_promise"
-        android:title="약속 생성"
+        android:title="약속 추가"
         android:icon="@drawable/prom_make"
         />
     <item
