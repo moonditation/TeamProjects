@@ -1,18 +1,506 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PromListFragment"
-    android:background="@color/lavender">
+    android:background="@drawable/dialogbg">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="33333"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:textColor="@color/white"/>
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_round_remove_24"
+            android:layout_gravity="center|top"
+            android:scaleType="centerCrop"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/createText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewStart"
+                android:text="약속 목록"
+                android:padding="8dp"
+                android:textColor="@color/lavender"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:textSize="25dp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:background="@drawable/image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_clear_24"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/cancelButton"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:background="@drawable/image_button"
+                android:id="@+id/active_prom"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/start_prom"
+                android:drawablePadding="7dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="활성화된 약속"
+                android:textSize="10sp"
+                android:textColor="@color/lavender"/>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:background="@drawable/image_button"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/pass_prom"
+                android:id="@+id/complete_prom"
+                android:drawablePadding="7dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="확정된 약속"
+                android:textSize="10sp"
+                android:textColor="@color/lavender"/>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:background="@drawable/image_button"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/wait_prom"
+                android:id="@+id/waiting_prom"
+                android:drawablePadding="7dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="대기중인 약속"
+                android:textSize="10sp"
+                android:textColor="@color/lavender"/>
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:id="@+id/prom_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:background="@drawable/scrollframe"
+                    android:backgroundTintMode="src_in"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/active_prom_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:background="@drawable/scrollframe"
+                    android:backgroundTintMode="src_in"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp"
+                            android:background="@drawable/border"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="52dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="60sp"
+                                    android:layout_margin="3dp"
+                                    android:textSize="20sp"
+                                    android:textColor="@color/blue_6"
+                                    android:text="약속 이름"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="30dp"
+                                        android:background="@android:color/transparent"
+                                        android:textSize="15sp"
+                                        android:text="~~ / ~~ / ~~"/>
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="30dp"
+                                        android:background="@android:color/transparent"
+                                        android:textSize="15sp"
+                                        android:text="~명"/>
+                                </LinearLayout>
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:padding="1dp"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginEnd="3dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@drawable/image_button"
+                                    android:drawableStart="@drawable/info"
+                                    android:adjustViewBounds="true"
+                                    android:scaleType="fitXY"
+                                    android:text="약속 정보"
+                                    android:textColor="@color/blue_6"
+                                    />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:orientation="horizontal"
+                                >
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:gravity="right">
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:padding="1dp"
+                                        android:layout_marginStart="3dp"
+                                        android:layout_marginEnd="3dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:background="@drawable/image_button"
+                                        android:drawableStart="@drawable/navi"
+                                        android:adjustViewBounds="true"
+                                        android:scaleType="fitXY"
+                                        android:textSize="11sp"
+                                        android:text="길 찾기"
+                                        android:textColor="@color/blue_6"
+                                        />
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:padding="1dp"
+                                        android:layout_marginStart="3dp"
+                                        android:layout_marginEnd="3dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:background="@drawable/image_button"
+                                        android:drawableStart="@drawable/chat"
+                                        android:adjustViewBounds="true"
+                                        android:scaleType="fitXY"
+                                        android:textSize="11sp"
+                                        android:text="채팅하기"
+                                        android:textColor="@color/blue_6"
+                                        />
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:padding="1dp"
+                                        android:layout_marginStart="3dp"
+                                        android:layout_marginEnd="3dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:background="@drawable/image_button"
+                                        android:drawableStart="@drawable/map"
+                                        android:adjustViewBounds="true"
+                                        android:scaleType="fitXY"
+                                        android:text="친구 위치"
+                                        android:textSize="11sp"
+                                        android:textColor="@color/blue_6"
+                                        />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/complete_prom_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:background="@drawable/scrollframe"
+                    android:backgroundTintMode="src_in"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp"
+                            android:background="@drawable/border"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="52dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="60sp"
+                                    android:layout_margin="3dp"
+                                    android:textSize="20sp"
+                                    android:textColor="@color/blue_6"
+                                    android:text="약속 이름"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="30dp"
+                                        android:background="@android:color/transparent"
+                                        android:textSize="15sp"
+                                        android:text="~~ / ~~ / ~~"/>
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="30dp"
+                                        android:background="@android:color/transparent"
+                                        android:textSize="15sp"
+                                        android:text="~명"/>
+                                </LinearLayout>
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:padding="1dp"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginEnd="3dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@drawable/image_button"
+                                    android:drawableStart="@drawable/pencil"
+                                    android:adjustViewBounds="true"
+                                    android:scaleType="fitXY"
+                                    android:text="약속 정보"
+                                    android:textColor="@color/blue_6"
+                                    />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:orientation="horizontal"
+                                >
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:gravity="right">
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:padding="1dp"
+                                        android:layout_marginStart="3dp"
+                                        android:layout_marginEnd="3dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:background="@drawable/image_button"
+                                        android:drawableStart="@drawable/navi"
+                                        android:adjustViewBounds="true"
+                                        android:scaleType="fitXY"
+                                        android:textSize="11sp"
+                                        android:text="길 찾기"
+                                        android:textColor="@color/blue_6"
+                                        />
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:padding="1dp"
+                                        android:layout_marginStart="3dp"
+                                        android:layout_marginEnd="3dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:background="@drawable/image_button"
+                                        android:drawableStart="@drawable/chat"
+                                        android:adjustViewBounds="true"
+                                        android:scaleType="fitXY"
+                                        android:textSize="11sp"
+                                        android:text="채팅하기"
+                                        android:textColor="@color/blue_6"
+                                        />
+
+
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/waiting_prom_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:background="@drawable/scrollframe"
+                    android:backgroundTintMode="src_in"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp"
+                            android:background="@drawable/border"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="52dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="60sp"
+                                    android:layout_margin="3dp"
+                                    android:textSize="20sp"
+                                    android:textColor="@color/blue_6"
+                                    android:text="약속 이름"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="30dp"
+                                        android:background="@android:color/transparent"
+                                        android:textSize="15sp"
+                                        android:text="~~ / ~~ / ~~"/>
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="30dp"
+                                        android:background="@android:color/transparent"
+                                        android:textSize="15sp"
+                                        android:text="~명"/>
+                                </LinearLayout>
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:padding="1dp"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginEnd="3dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@drawable/image_button"
+                                    android:drawableStart="@drawable/info"
+                                    android:adjustViewBounds="true"
+                                    android:scaleType="fitXY"
+                                    android:text="약속 정보"
+                                    android:textColor="@color/blue_6"
+                                    />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:orientation="horizontal"
+                                >
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:gravity="right">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:text="이 약속은 아직 확정되진 않았습니다."/>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+
 
 </FrameLayout>
