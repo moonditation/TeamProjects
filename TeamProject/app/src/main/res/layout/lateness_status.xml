@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:paddingVertical="10dp">
+
+        <ImageButton
+            android:id="@+id/go_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:background="#ffffff"
+            android:scaleType="fitXY"
+            android:src="@drawable/go_back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="지각 현황"
+            android:textSize="30sp" />
+
+        <ImageButton
+            android:id="@+id/add_promise"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:background="#ffffff"
+            android:scaleType="fitXY"
+            android:src="@drawable/noti_button" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/grey_background"
+        android:orientation="vertical"
+        android:paddingTop="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginVertical="10dp">
+
+            <ImageButton
+                android:id="@+id/lateness_button1"
+                android:layout_width="350dp"
+                android:layout_height="130dp"
+                android:background="@drawable/lateness_button"/>
+                <TextView
+                    android:id="@+id/dont_be_late"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="약속 이름: 늦지 말자"
+                    android:textSize="25sp"
+                    android:layout_alignTop="@id/lateness_button1"
+                    android:layout_alignLeft="@id/lateness_button1"
+                    android:paddingVertical="15dp"
+                    android:layout_marginLeft="15dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="일시: 23.09.20/15:00"
+                    android:textStyle="bold"
+                    android:layout_alignBottom="@id/lateness_button1"
+                    android:layout_alignStart="@id/dont_be_late"
+                    android:layout_below="@id/dont_be_late"
+                    android:paddingHorizontal="10dp"
+                    android:gravity="center"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginVertical="10dp">
+
+            <ImageButton
+                android:id="@+id/lateness_button2"
+                android:layout_width="350dp"
+                android:layout_height="130dp"
+                android:background="@drawable/lateness_button"/>
+            <TextView
+                android:id="@+id/classmate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="약속 이름: 중3 반모임"
+                android:textSize="25sp"
+                android:layout_alignTop="@id/lateness_button2"
+                android:layout_alignLeft="@id/lateness_button2"
+                android:paddingVertical="15dp"
+                android:layout_marginLeft="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="일시: 23.09.19/19:00"
+                android:textStyle="bold"
+                android:layout_alignBottom="@id/lateness_button2"
+                android:layout_alignStart="@id/classmate"
+                android:layout_below="@id/classmate"
+                android:paddingHorizontal="10dp"
+                android:gravity="center"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
