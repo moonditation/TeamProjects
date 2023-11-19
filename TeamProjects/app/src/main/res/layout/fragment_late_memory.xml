@@ -65,6 +65,7 @@
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/prom1"
                         android:background="@drawable/image_button"
                         android:layout_margin="10dp"
                         android:layout_width="match_parent"
