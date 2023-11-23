@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:background="@drawable/image_button"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="60sp"
+            android:layout_margin="3dp"
+            android:text="약속 이름"
+            android:textColor="@color/blue_6"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:text="~~ / ~~ / ~~"
+                android:textSize="15sp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:text="~명"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/active_edit_promise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/image_button"
+            android:drawableStart="@drawable/info"
+            android:padding="1dp"
+            android:scaleType="fitXY"
+            android:text="약속 정보"
+            android:textColor="@color/blue_6" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/image_button"
+                android:drawableStart="@drawable/check_prom"
+                android:padding="1dp"
+                android:scaleType="fitXY"
+                android:text="수락하기"
+                android:textColor="@color/blue_6"
+                android:textSize="11sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/image_button"
+                android:drawableStart="@drawable/cancel_prom"
+                android:padding="1dp"
+                android:scaleType="fitXY"
+                android:text="거절하기"
+                android:textColor="@color/blue_6"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

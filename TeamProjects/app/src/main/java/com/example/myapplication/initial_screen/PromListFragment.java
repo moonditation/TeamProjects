@@ -13,6 +13,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.example.myapplication.R;
+import com.example.myapplication.friend_list.friend_received_fragment;
+import com.example.myapplication.list_prom.activied_promise;
+import com.example.myapplication.list_prom.completed_promise;
+import com.example.myapplication.list_prom.none_click_promise_list;
+import com.example.myapplication.list_prom.waiting_promise;
 
 public class PromListFragment extends Fragment {
 
@@ -21,47 +26,52 @@ public class PromListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_prom_list, container, false);
 
-        FrameLayout active_frame = view.findViewById(R.id.active_prom_frame);
-        FrameLayout complete_frame = view.findViewById(R.id.complete_prom_frame);
-        FrameLayout waiting_frame = view.findViewById(R.id.waiting_prom_frame);
-        FrameLayout prom_list = view.findViewById(R.id.prom_list);
+        none_click_promise_list none_click_promise_list = new none_click_promise_list();
+        FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.prom_list, none_click_promise_list);
+        fragmentTransaction.commit();
 
-        // 친구 목록 버튼
-        AppCompatButton active_prom_button = view.findViewById(R.id.active_prom);
-        active_prom_button.setOnClickListener(new View.OnClickListener() {
+        // 활성화된 약속클릭
+        AppCompatButton active_prom_button_click = view.findViewById(R.id.active_prom);
+        active_prom_button_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                active_frame.setVisibility(View.VISIBLE);
-                complete_frame.setVisibility(View.GONE);
-                waiting_frame.setVisibility(View.GONE);
-                prom_list.setVisibility(View.GONE);
+                activied_promise fragment_activied_promise = new activied_promise();
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+
+                fragmentTransaction.replace(R.id.prom_list, fragment_activied_promise);
+                fragmentTransaction.commit();
+
             }
         });
 
-        // 보낸 요청 목록 버튼
-        AppCompatButton complete_prom_button = view.findViewById(R.id.complete_prom);
-        complete_prom_button.setOnClickListener(new View.OnClickListener() {
+        // 확정된 약속클릭
+        AppCompatButton completed_prom_button_click = view.findViewById(R.id.complete_prom);
+        completed_prom_button_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                active_frame.setVisibility(View.GONE);
-                complete_frame.setVisibility(View.VISIBLE);
-                waiting_frame.setVisibility(View.GONE);
-                prom_list.setVisibility(View.GONE);
+                completed_promise fragment_completed_promise = new completed_promise();
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+
+                fragmentTransaction.replace(R.id.prom_list, fragment_completed_promise);
+                fragmentTransaction.commit();
+
             }
         });
 
-        // 받은 요청 목록 버튼
-        AppCompatButton waiting_prom_button = view.findViewById(R.id.waiting_prom);
-        waiting_prom_button.setOnClickListener(new View.OnClickListener() {
+        // 대기중인 약속클릭
+        AppCompatButton waiting_prom_button_click = view.findViewById(R.id.waiting_prom);
+        waiting_prom_button_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                active_frame.setVisibility(View.GONE);
-                complete_frame.setVisibility(View.GONE);
-                waiting_frame.setVisibility(View.VISIBLE);
-                prom_list.setVisibility(View.GONE);
+                waiting_promise fragment_waiting_promise = new waiting_promise();
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+
+                fragmentTransaction.replace(R.id.prom_list, fragment_waiting_promise);
+                fragmentTransaction.commit();
+
             }
         });
-
 
         ImageButton cancel_button = view.findViewById(R.id.cancelButton);
         cancel_button.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +80,7 @@ public class PromListFragment extends Fragment {
                 FirstFragment firstFragment = new FirstFragment();
                 FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(
-                        R.anim.slide_in_bottom,
+                        R.anim.slide_in_top,
                         R.anim.slide_out_bottom
                 );
                 fragmentTransaction.replace(R.id.frame_layout, firstFragment);

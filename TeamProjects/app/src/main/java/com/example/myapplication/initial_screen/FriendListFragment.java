@@ -37,7 +37,7 @@ public class FriendListFragment extends Fragment {
                 FirstFragment firstFragment = new FirstFragment();
                 FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(
-                        R.anim.slide_in_bottom,
+                        R.anim.slide_in_top,
                         R.anim.slide_out_bottom
                 );
                 fragmentTransaction.replace(R.id.frame_layout, firstFragment);

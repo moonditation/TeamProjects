@@ -51,17 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentTransaction.commit();
     }
-    private void replaceFragmentWithStack(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(
-                R.anim.slide_in_bottom,
-                R.anim.slide_out_bottom
-        );
-        fragmentTransaction.replace(R.id.frame_layout, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
 
 
 
