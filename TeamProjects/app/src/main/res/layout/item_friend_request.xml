@@ -2,9 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="30dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginEnd="30dp"
     android:background="@drawable/friend_info"
     android:orientation="horizontal">
 
@@ -36,15 +33,16 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="이름 :"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:id="@+id/userName"
                 android:text="문관록"
-                android:textSize="18sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -59,7 +57,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="ID :"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -69,8 +67,9 @@
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
+                android:id="@+id/userId"
                 android:text="gwanrokMoon"
-                android:textSize="18sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -88,7 +87,7 @@
             android:backgroundTint="#ffffff"
             android:drawableLeft="@drawable/check_prom"
             android:scaleType="fitXY"
-            android:text="수락하기" />
+            android:text="수락" />
 
 
         <androidx.appcompat.widget.AppCompatButton
@@ -98,7 +97,7 @@
             android:backgroundTint="#ffffff"
             android:drawableLeft="@drawable/cancel_prom"
             android:scaleType="fitXY"
-            android:text="거절하기" />
+            android:text="거절" />
 
     </LinearLayout>
 

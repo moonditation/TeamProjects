@@ -13,25 +13,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapter.Friend_received_adapter;
-import com.example.myapplication.adapter.Prom_make_added_friend;
+import com.example.myapplication.adapter.Friend_list_adapter;
 import com.example.myapplication.adapter.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class friend_received_fragment extends Fragment {
-
+public class friend_list_click_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_friend_received_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_friend_list_click, container, false);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // 프래그먼트 2의 종료 이벤트 처리
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,14 +36,13 @@ public class friend_received_fragment extends Fragment {
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
-
         // 리사이클러뷰 설정
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_received_friend);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_friend_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // 어댑터와 데이터 연결
         List<User> dataList = generateData(); // 데이터 생성
-        Friend_received_adapter adapter = new Friend_received_adapter(dataList);
+        Friend_list_adapter adapter = new Friend_list_adapter(dataList);
         recyclerView.setAdapter(adapter);
     }
 

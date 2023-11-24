@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewStart"
-                android:text="받은 친구요청"
+                android:text="친구 목록"
                 android:padding="8dp"
                 android:textColor="@color/lavender"
                 android:layout_marginStart="12dp"
@@ -57,7 +57,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/recycler_view_received_friend"/>
+                android:id="@+id/recycler_view_friend_list"/>
         </LinearLayout>
 
     </LinearLayout>

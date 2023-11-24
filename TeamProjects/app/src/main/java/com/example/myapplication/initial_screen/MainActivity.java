@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         replaceFragment(new FirstFragment());
 
+        binding.bottomNavigationView.getMenu().getItem(0).setChecked(false);
         binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -33,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(new FriendListFragment());
             } else if (itemId == R.id.late_memory) {
                 replaceFragment(new LateMemoryFragment());
+            } else if (itemId == R.id.home) {
+                replaceFragment(new FirstFragment());
             }
+
             return true;
         });
         binding.bottomNavigationView.setOnItemReselectedListener(item -> {

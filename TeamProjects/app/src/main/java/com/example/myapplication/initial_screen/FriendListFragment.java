@@ -1,26 +1,22 @@
 package com.example.myapplication.initial_screen;
 
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.friend_list.friend_list_click_fragment;
 import com.example.myapplication.friend_list.friend_received_fragment;
 import com.example.myapplication.friend_list.friend_requested_fragment;
-import com.example.myapplication.initial_screen.FirstFragment;
 
 
 public class FriendListFragment extends Fragment {
@@ -58,11 +54,14 @@ public class FriendListFragment extends Fragment {
         // 친구 목록 버튼
         AppCompatButton friendListButton = view.findViewById(R.id.list_of_friend);
         friendListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
-                // 버튼 클릭 시 처리할 코드
-                // 예: 다른 프래그먼트로 이동하거나 특정 동작 수행
-                Toast.makeText(getActivity(), "친구 목록 버튼 클릭", Toast.LENGTH_SHORT).show();
+                friend_list_click_fragment friend_list_click_fragment = new friend_list_click_fragment();
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+
+                fragmentTransaction.replace(R.id.frame_layout, friend_list_click_fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
             }
         });
 
