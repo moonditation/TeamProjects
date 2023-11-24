@@ -2,6 +2,8 @@ package com.example.myapplication.make_prom;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -17,6 +19,13 @@ public class click_received_promise extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_click_received_promise, container, false);
 
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         // 프래그먼트 2의 종료 이벤트 처리
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -26,6 +35,5 @@ public class click_received_promise extends Fragment {
             }
         });
 
-        return view;
     }
 }

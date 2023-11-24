@@ -2,6 +2,8 @@ package com.example.myapplication.list_prom;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +26,14 @@ public class waiting_promise extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_waiting_promise, container, false);
 
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         // 리사이클러뷰 설정
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_wait_prom);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -32,10 +42,7 @@ public class waiting_promise extends Fragment {
         List<Promise> dataList = generateData(); // 데이터 생성
         Prom_waiting_adapter adapter = new Prom_waiting_adapter(dataList);
         recyclerView.setAdapter(adapter);
-
-        return view;
     }
-
 
     //다른 약속도 똑같이 정리하긴 할텐데, 리스트에 담는 과정을 정리하면 된다.
     //사실 추가되더라고 크게 바뀔 것은 없다.

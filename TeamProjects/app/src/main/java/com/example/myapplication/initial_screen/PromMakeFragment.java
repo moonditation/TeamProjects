@@ -2,6 +2,8 @@ package com.example.myapplication.initial_screen;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,6 +25,12 @@ public class PromMakeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_prom_make, container, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
 
         ImageButton cancel_button = view.findViewById(R.id.cancelButton);
@@ -70,6 +78,5 @@ public class PromMakeFragment extends Fragment {
             }
         });
 
-        return view;
     }
 }
