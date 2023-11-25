@@ -22,6 +22,7 @@ import com.naver.maps.map.util.FusedLocationSource;
 public class NaverMapTestActivity extends FragmentActivity implements OnMapReadyCallback {
     Marker marker = new Marker();
     Marker marker2 = new Marker();
+
     InfoWindow infoWindow = new InfoWindow();
     InfoWindow infoWindow2 = new InfoWindow();
 
@@ -37,7 +38,7 @@ public class NaverMapTestActivity extends FragmentActivity implements OnMapReady
 
 
         FragmentManager fm = getSupportFragmentManager();
-        MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
         if (mapFragment == null) {
             mapFragment = MapFragment.newInstance();
             fm.beginTransaction().add(R.id.map, mapFragment).commit();
@@ -61,22 +62,21 @@ public class NaverMapTestActivity extends FragmentActivity implements OnMapReady
                     @NonNull
                     @Override
                     public CharSequence getText(@NonNull InfoWindow infoWindow) {
-                        return "이름 : "+ receivedName +"\nlatitude : "+receivedLatitude+"\nlongitude : "+receivedLongitude;
+                        return "이름 : " + receivedName + "\nlatitude : " + receivedLatitude + "\nlongitude : " + receivedLongitude;
                     }
                 });
             }
-        }
-        else {
-            Log.d("RecievedWrong","wrong");
+        } else {
+            Log.d("RecievedWrong", "wrong");
         }
 
-            infoWindow2.setAdapter(new InfoWindow.DefaultTextAdapter(this) {
-                @NonNull
-                @Override
-                public CharSequence getText(@NonNull InfoWindow infoWindow) {
-                    return "여기에 사람 정보 알려줌2";
-                }
-            });
+        infoWindow2.setAdapter(new InfoWindow.DefaultTextAdapter(this) {
+            @NonNull
+            @Override
+            public CharSequence getText(@NonNull InfoWindow infoWindow) {
+                return "여기에 사람 정보 알려줌2";
+            }
+        });
 
     }
 
@@ -99,7 +99,7 @@ public class NaverMapTestActivity extends FragmentActivity implements OnMapReady
 
         // 마커를 클릭하면:
         Overlay.OnClickListener listener = overlay -> {
-            Marker marker = (Marker)overlay;
+            Marker marker = (Marker) overlay;
 
             if (marker.getInfoWindow() == null) {
                 // 현재 마커에 정보 창이 열려있지 않을 경우 엶
