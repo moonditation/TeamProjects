@@ -6,8 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
@@ -25,6 +27,7 @@ import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.CircleOverlay;
 import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
@@ -56,8 +59,11 @@ public class RealNew extends AppCompatActivity implements OnMapReadyCallback {
 
     private List<InfoWindow> locationButtonList = new ArrayList<>();
 
+    private List<CircleOverlay> safeCircleList = new ArrayList<>();
+
 
     private Button updateButton;
+    int numOfMembers=3;
 
 
     @Override
@@ -79,7 +85,6 @@ public class RealNew extends AppCompatActivity implements OnMapReadyCallback {
             // 업데이트 버튼 클릭 시 처리할 코드
             getCollectionAndMakeMemberTest();
         });
-
     }
 
     private void initializeCloudFirestore() {
@@ -93,12 +98,14 @@ public class RealNew extends AppCompatActivity implements OnMapReadyCallback {
         collectionRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 removeMarkersAndInfoWindows();
+                removeSafeCircleZone();
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Map<String, Object> data = document.getData();
 
                     String name = (String) data.get("name");
                     Double latitude = (Double) data.get("latitude");
                     Double longitude = (Double) data.get("longitude");
+
 
                     if (latitude != null && longitude != null) {
                         Marker marker = new Marker();
@@ -126,6 +133,12 @@ public class RealNew extends AppCompatActivity implements OnMapReadyCallback {
                     LatLng firstLocation = markerList.get(3).getPosition();
                     CameraUpdate cameraUpdate = CameraUpdate.scrollTo(firstLocation);
                     naverMap.moveCamera(cameraUpdate);
+                }
+
+                //특정 위치에 원 추가
+                if (!markerList.isEmpty()) {
+                    LatLng firstLocation = markerList.get(3).getPosition();
+                    makeSafeCircleZone(firstLocation);
                 }
             } else {
                 Log.d(TAG, "문서 가져오기 오류: ", task.getException());
@@ -155,38 +168,46 @@ public class RealNew extends AppCompatActivity implements OnMapReadyCallback {
         }
     }
 
-    //미완성, 화면에 document 개수만큼 버튼 만들어서 띄우는 용도
-    private void makeButtons(){
-        Button updateButton = new Button(this);
-        updateButton.setText("Update Location " ); // 버튼에 표시될 텍스트 설정
+    //미완성, 화면에 document 개수만큼 버튼 만들어서 띄우는 용
+    private void makeButtons() {
+        RelativeLayout layout = findViewById(R.id.activity_real_layout);
+        int prevButtonId = R.id.update_button;
 
-        // 버튼 레이아웃 파라미터 설정
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM); // 부모 레이아웃의 아래쪽에 배치
-        params.addRule(RelativeLayout.CENTER_HORIZONTAL); // 가로 중앙에 배치
-        int margin = 0;
-        params.setMargins(margin, margin, margin, margin);
-        updateButton.setLayoutParams(params);
+        for (int i = 0; i < numOfMembers; i++) {
+            Button memberButton = new Button(this);
+            memberButton.setId(View.generateViewId());
+            memberButton.setText("Member " + (i + 1));
 
-        // 버튼을 액티비티의 레이아웃에 추가
-        RelativeLayout layout = findViewById(R.id.activity_real_layout); // 여기서 your_layout_id는 버튼을 추가할 레이아웃의 식별자입니다.
-        layout.addView(updateButton);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
-        // 버튼 클릭 리스너 설정
-        updateButton.setOnClickListener(v -> {
-            // 업데이트 버튼 클릭 시 처리할 코드
-            // 해당 document의 위치 정보를 사용하여 처리
-            // 예: updateLocation(latitude, longitude);
-        });
+            if (i > 0) {
+                params.addRule(RelativeLayout.RIGHT_OF, prevButtonId);
+            } else {
+                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT); // 첫 번째 버튼을 왼쪽에 정렬
+            }
+
+            memberButton.setLayoutParams(params);
+            layout.addView(memberButton);
+
+            prevButtonId = memberButton.getId(); // 다음 버튼을 오른쪽으로 배치하기 위해 ID 업데이트
+
+            int finalI = i;
+            memberButton.setOnClickListener(v -> {
+                // Handle button click for each member
+                // Example: updateLocationForMember(finalI);
+            });
+        }
     }
 
     private void removeMarkersAndInfoWindows() {
         for (Marker marker : markerList) {
             marker.setMap(null); // 마커 제거
         }
+
         markerList.clear(); // 리스트 초기화
 
         for (InfoWindow infoWindow : infoWindowList) {
@@ -195,14 +216,30 @@ public class RealNew extends AppCompatActivity implements OnMapReadyCallback {
         infoWindowList.clear(); // 리스트 초기화
     }
 
+    private void makeSafeCircleZone(LatLng latLng){
+        CircleOverlay circle = new CircleOverlay();
+        circle.setCenter(latLng); // 원의 중심 위치 설정
+        circle.setRadius(300); // 원의 반지름 설정 (미터 단위)
+        circle.setColor(Color.argb(128, 255, 0, 0)); // 원의 색상 설정
+        circle.setMap(naverMap); // 네이버 지도에 원 추가
 
+        safeCircleList.add(circle); // 리스트에 추가
+
+    }
+
+    private void removeSafeCircleZone() {
+        for (CircleOverlay circleOverlay : safeCircleList) {
+            circleOverlay.setMap(null); // CircleOverlay 제거
+        }
+        safeCircleList.clear(); // 리스트 초기화
+    }
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
         naverMap.setLocationSource(locationSource);
 
         getCollectionAndMakeMemberTest();
-
+        makeButtons();
 
     }
 }
