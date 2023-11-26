@@ -1,10 +1,11 @@
-package com.example.myapplication.friend_list;
+package com.example.myapplication.make_prom;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,27 +14,30 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.Adding_friend_adapter;
+import com.example.myapplication.adapter.Prom_completed_adapter;
+import com.example.myapplication.adapter.Promise;
 import com.example.myapplication.adapter.User;
-import com.example.myapplication.adapter.friend_request_adapter;
 import com.example.myapplication.databinding.FragmentAddingFriendBinding;
-import com.example.myapplication.databinding.FragmentFriendRequestedFragmentBinding;
+import com.example.myapplication.initial_screen.FirstFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class friend_requested_fragment extends Fragment {
+public class adding_friend extends Fragment {
 
-    private FragmentFriendRequestedFragmentBinding binding;
+    private FragmentAddingFriendBinding binding;
     private List<User> dataList;
-    private friend_request_adapter adapter;
-
+    private Adding_friend_adapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentFriendRequestedFragmentBinding.inflate(inflater, container, false);
+
+        binding = FragmentAddingFriendBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         return view;
     }
@@ -42,29 +46,28 @@ public class friend_requested_fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         // 리사이클러뷰 설정
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView_adding_friend);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // 어댑터와 데이터 연결
         dataList = generateData(); // 데이터 생성
-        adapter = new friend_request_adapter(dataList);
+        adapter = new Adding_friend_adapter(dataList);
         recyclerView.setAdapter(adapter);
 
 
         wordInput();
 
-
-        // 프래그먼트 2의 종료 이벤트 처리
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
 
     }
+
     private List<User> generateData() {
         dataList = new ArrayList<>();
         // 데이터를 원하는대로 추가

@@ -38,7 +38,7 @@ public class Prom_make_added_friend extends RecyclerView.Adapter<Prom_make_added
         return userList.size();
     }
 
-    public static class addedFriendViewHolder extends RecyclerView.ViewHolder {
+    public class addedFriendViewHolder extends RecyclerView.ViewHolder {
         private ItemFriendBinding binding;
 
         private addedFriendViewHolder(ItemFriendBinding binding){

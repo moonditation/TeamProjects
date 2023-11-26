@@ -57,7 +57,7 @@ public class PromMakeFragment extends Fragment {
                 click_make_promise click_make_promise = new click_make_promise();
                 FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.frame_layout, click_make_promise);
+                fragmentTransaction.add(R.id.frame_layout, click_make_promise);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
@@ -71,7 +71,7 @@ public class PromMakeFragment extends Fragment {
                 click_received_promise click_received_promise = new click_received_promise();
                 FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.frame_layout, click_received_promise);
+                fragmentTransaction.add(R.id.frame_layout, click_received_promise);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 

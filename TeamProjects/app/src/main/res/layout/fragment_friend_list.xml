@@ -86,7 +86,7 @@
                 android:paddingTop="4dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="4dp"
-                android:text="보낸 요청 목록"
+                android:text="친구요청 보내기"
                 android:textColor="@color/lavender" />
 
 
@@ -103,7 +103,7 @@
                 android:paddingTop="4dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="4dp"
-                android:text="받은 요청 목록"
+                android:text="받은 친구요청 목록"
                 android:textColor="@color/lavender" />
 
         </LinearLayout>

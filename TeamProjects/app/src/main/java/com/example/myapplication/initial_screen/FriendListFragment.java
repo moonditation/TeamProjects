@@ -58,7 +58,7 @@ public class FriendListFragment extends Fragment {
                 friend_list_click_fragment friend_list_click_fragment = new friend_list_click_fragment();
                 FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.frame_layout, friend_list_click_fragment);
+                fragmentTransaction.add(R.id.frame_layout, friend_list_click_fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
@@ -74,7 +74,7 @@ public class FriendListFragment extends Fragment {
                 friend_received_fragment received_fragment = new friend_received_fragment();
                 FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.frame_layout, received_fragment);
+                fragmentTransaction.add(R.id.frame_layout, received_fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
@@ -89,7 +89,7 @@ public class FriendListFragment extends Fragment {
                 friend_requested_fragment requested_fragment = new friend_requested_fragment();
                 FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.frame_layout, requested_fragment);
+                fragmentTransaction.add(R.id.frame_layout, requested_fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 

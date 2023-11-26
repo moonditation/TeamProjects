@@ -39,7 +39,7 @@ public class Friend_received_adapter extends RecyclerView.Adapter<Friend_receive
         return userList.size();
     }
 
-    public static class friendReceiveViewHolder extends RecyclerView.ViewHolder {
+    public class friendReceiveViewHolder extends RecyclerView.ViewHolder {
         private ItemFriendRequestBinding binding;
 
         private friendReceiveViewHolder(ItemFriendRequestBinding binding){

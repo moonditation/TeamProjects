@@ -4,6 +4,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/friend_info"
+        android:id="@+id/user_info"
         >
 
 
