@@ -53,6 +53,9 @@ dependencies {
     //위치 받아오기
     implementation ("com.google.android.gms:play-services-location:21.0.1")
 
+    //위치받아오기 구글서비스
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
     //파이어베이스
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
@@ -67,4 +70,9 @@ dependencies {
     // Declare the dependency for the Cloud Firestore library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-firestore")
+
+
+    //gson - geocoding 사용에 필요
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 }
