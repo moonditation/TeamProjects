@@ -117,13 +117,12 @@
                         android:textColor="@color/lavender"/>
                 </LinearLayout>
 
-                <ListView
-                    android:id="@+id/late_list_view"
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:scrollbars="none"
-                    tools:listitem="@layout/late_list_item" />
+                    android:layout_margin="8dp"
+                    android:elevation="-20dp"
+                    android:id="@+id/recycler_view_late_member"/>
 
             </LinearLayout>
         </LinearLayout>
