@@ -6,6 +6,7 @@ public class User {
     String name;
     String id;
     List<User> friends;
+    List<Promise> promises;
 
     float reliability;
 
@@ -13,6 +14,13 @@ public class User {
         this.name = name;
         this.id = id;
         this.reliability = reliability;
+    }
+    public User(String name, String id, float reliability, List<User> friends, List<Promise> promises){
+        this.name = name;
+        this.id = id;
+        this.reliability = reliability;
+        this.friends = friends;
+        this.promises = promises;
     }
     public User(String name, String id){
         this.name = name;
@@ -26,5 +34,7 @@ public class User {
     public String getId() {
         return id;
     }
+
+    public float getReliability(){ return reliability; }
 
 }
