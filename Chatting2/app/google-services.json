@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "345947950284",
+    "firebase_url": "https://carry-on-1004-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "carry-on-1004",
+    "storage_bucket": "carry-on-1004.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345947950284:android:f9df4792ce9c2a9c600669",
+        "android_client_info": {
+          "package_name": "com.example.chatting2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPCJZRFWDwa9vj1z8PbCVQq7OiIWk-V_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345947950284:android:41f17d4c130417e6600669",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPCJZRFWDwa9vj1z8PbCVQq7OiIWk-V_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

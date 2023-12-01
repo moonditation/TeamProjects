@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/check_promise"
+        android:title="약속 목록"
+        android:icon="@drawable/prom_list"
+        />
+    <item
+        android:id="@+id/make_promise"
+        android:title="약속 추가"
+        android:icon="@drawable/prom_make"
+        />
+    <item
+        android:id="@+id/friend_list"
+        android:title="친구 관리"
+        android:icon="@drawable/friend_list"
+       />
+    <item
+        android:id="@+id/late_memory"
+        android:title="지각 현황"
+        android:icon="@drawable/late_memory"
+       />
+
+
+</menu>

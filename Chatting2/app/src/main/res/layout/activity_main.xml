@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_centerInParent="true"
+        android:padding="8dp"
+        android:background="@drawable/bg_edit"
+        android:hint="Email"
+        android:gravity="center"
+        android:layout_above="@id/PW"
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/PW"
+        android:layout_centerInParent="true"
+        android:padding="8dp"
+        android:background="@drawable/bg_edit"
+        android:hint="Password"
+        android:gravity="center"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/nickname"
+        android:layout_centerInParent="true"
+        android:padding="8dp"
+        android:background="@drawable/bg_edit"
+        android:hint="nicname"
+        android:gravity="center"
+        android:ems="10"
+        android:maxLength="10"
+        android:layout_below="@id/PW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/signIn"
+        android:layout_marginHorizontal="16dp"
+        android:layout_below="@id/nickname"
+        android:text="로그인"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/signUp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_below="@id/signIn"
+        android:text="회원가입"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>
