@@ -35,10 +35,12 @@ import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
 
+    // FirestoreRecyclerAdapter
     private FirestoreRecyclerAdapter adapter;
-
+    // 채팅방 이름 넣을 TextView 가져오는 변수
     TextView chatRoomNameTextView;
 
+    // 뷰 타입에 따라서 내 화면일 때 0, 다른 사람일 때 1
     private static final int VIEW_TYPE_MY_MESSAGE = 0;
     private static final int VIEW_TYPE_OTHER_MESSAGE = 1;
 
@@ -47,10 +49,9 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        // 파이어스토어 객체 얻어오기
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        setTitle("Using FirestoreRecyclerAdapter");
-
+        // 쿼리 연결할 때, 채팅이 들어가는 곳까지 연결해주기 -> 그렇기 때문에 중간에 문서들은 식별할 수 있는 것으로 넣는 것이 좋음
         Query query = FirebaseFirestore.getInstance()
                 .collection("promises")
                 .document("chatDoc")
@@ -58,16 +59,21 @@ public class ChatActivity extends AppCompatActivity {
                 .orderBy("timestamp")
                 .limit(50);
 
+        // 그 쿼리를 옵션으로 새로운 빌더 객체를 생성
         FirestoreRecyclerOptions<Chat> options = new FirestoreRecyclerOptions.Builder<Chat>()
-                .setQuery(query, Chat.class)
+                .setQuery(query, Chat.class) // 쿼리와 채팅할 때 사용할 아이템 클래스를 넘겨줌
                 .build();
 
+        // 아답터 생성
         adapter = new FirestoreRecyclerAdapter<Chat, ChatHolder>(options) {
+
+            // 뷰홀더와 바인딩 해줌
             @Override
             protected void onBindViewHolder(ChatHolder holder, int position, Chat model) {
                 holder.bind(model);
             }
 
+            // viewType을 getItemViewType으로부터 넘겨받아 viewType에 따라서 다른 레이아웃을 인플레이트 함
             @Override
             public ChatHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 if (viewType == VIEW_TYPE_OTHER_MESSAGE) {
@@ -80,13 +86,14 @@ public class ChatActivity extends AppCompatActivity {
                 return new ChatHolder(view);
             }
 
+            // 현재 로그인 해있는 사용자일 때에는 viewType을 VIEW_TYPE_MY_MESSAGE로, 아님 VIEW_TYPE_OTHER_MESSAGE로 넘겨줌
             @Override
             public int getItemViewType(int position) {
                 Chat chat = getItem(position);
 
                 String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 String messageUid = chat.getUserId();
-
+                // 현제 로그인중인 사용자의 uid와 가장 최근에 올라온 채팅을 보낸 사람의 uid를 비교
                 if (currentUserUid.equals(messageUid)) {
                     return VIEW_TYPE_MY_MESSAGE;
                 } else {
@@ -95,10 +102,11 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
 
+        // 리사이클러뷰와 아답터 연결
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
         recyclerView.setAdapter(adapter);
-
+        // 메시지 쓰는 messageText, 전송버튼인 sendBtn
         EditText messageText = findViewById(R.id.editMessage);
         Button sendBtn = findViewById(R.id.sendBtn);
 
@@ -115,7 +123,7 @@ public class ChatActivity extends AppCompatActivity {
                         String senderUid = currentUser.getUid();
                         // 회원가입할 때, usersExample 컬렉션의 필드에 name을 가져와 보내는 사람의 정보에 넣는다.
                         db.collection("usersExample")
-                                .document(senderUid)
+                                .document(senderUid) // usersExample 컬렉션의 document 이름은 사용자의 Uid로 해놓음.
                                 .get()
                                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
@@ -128,7 +136,7 @@ public class ChatActivity extends AppCompatActivity {
                                                 Chat chatItem = new Chat(senderName, message, senderUid);
 
                                                 db.collection("promises").document("chatDoc").collection("chats")
-                                                        .document("MSG_" + System.currentTimeMillis())
+                                                        .document("MSG_" + System.currentTimeMillis()) // 시간 순서대로 채팅 document들을 나열
                                                         .set(chatItem)
                                                         .addOnSuccessListener(documentReference -> {
                                                             // 추가 성공
@@ -139,7 +147,7 @@ public class ChatActivity extends AppCompatActivity {
                                                             Log.w("LJM", "Error adding document", e);
                                                         });
 
-                                                messageText.setText("");
+                                                messageText.setText(""); // 채팅 보내고 내서 EditText 초기화
                                             }
                                         } else {
                                             Log.d("LJM", "No such document");
@@ -151,6 +159,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        // 채팅방 이름 받을 chatRoomNameTextView
         chatRoomNameTextView = findViewById(R.id.chatRoomName);
 
         // 채팅방 이름 바꾸려고 예시로 promises - promiseInfo 에 필드로 name 하나 넣어놓음
@@ -181,7 +190,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void fetchChatRoomNameFromFirestore() {
-        // 'promises' 컬렉션에서 문서 가져오기 (예: 문서 ID는 'yourDocumentId'로 대체)
+        // 'promises' 컬렉션에서 문서 가져오기 (예: 문서 ID는 'promiseInfo'로 대체)
         FirebaseFirestore.getInstance().collection("promises")
                 .document("promiseInfo")
                 .get()
@@ -199,6 +208,7 @@ public class ChatActivity extends AppCompatActivity {
                 });
     }
 
+    // 채팅방 이름 설정
     private void setChatRoomName(String newName) {
         if (newName != null) {
             chatRoomNameTextView.setText(newName);

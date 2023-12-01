@@ -75,7 +75,8 @@
             android:hint="메시지를 입력하세요"
             android:inputType="textMultiLine"
             android:maxLines="3"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:privateImeOptions="defaultInputmode=korean"/>
 
         <Button
             android:id="@+id/sendBtn"
