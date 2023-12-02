@@ -3,6 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:elevation="40dp"
+    android:layout_gravity="center"
+    android:clickable="false"
     android:background="@drawable/dialogbg">
 
     <LinearLayout
@@ -12,9 +15,10 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_round_remove_24"
             android:layout_gravity="center|top"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_round_remove_24" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewStart"
-                android:text="검색해서 추가하기"
+                android:text="친구 요청"
                 android:padding="8dp"
                 android:textColor="@color/lavender"
                 android:layout_marginStart="12dp"
@@ -53,22 +57,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/scrollframe"
+            android:layout_marginBottom="15dp"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search_view_phone_book"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/border"
-                android:hint="Search ID"
-                android:iconifiedByDefault="false"
-                android:layout_marginTop="5dp"/>
+                android:background="@drawable/border_search"
+                android:elevation="10dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_marginStart="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/search"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"/>
+                <EditText
+                    android:id="@+id/edt_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:hint="함꼐할 친구의 id를 입력하세요."/>
+            </LinearLayout>
 
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_adding_friend"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/border" />
+                android:layout_height="match_parent"/>
         </LinearLayout>
 
     </LinearLayout>

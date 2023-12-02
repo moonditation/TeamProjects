@@ -6,10 +6,10 @@
         />
 
     <corners
-        android:topLeftRadius="15dp"
-        android:topRightRadius="15dp"
-        android:bottomLeftRadius="15dp"
-        android:bottomRightRadius="15dp"/>
+        android:topLeftRadius="3dp"
+        android:topRightRadius="3dp"
+        android:bottomLeftRadius="3dp"
+        android:bottomRightRadius="3dp"/>
     <padding
         android:left="10dp"
         android:right="10dp"

@@ -13,6 +13,11 @@
         android:icon="@drawable/prom_make"
         />
     <item
+        android:id="@+id/home"
+        android:title="홈 화면"
+        android:icon="@drawable/home"
+        />
+    <item
         android:id="@+id/friend_list"
         android:title="친구 관리"
         android:icon="@drawable/friend_list"
