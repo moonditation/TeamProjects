@@ -8,7 +8,6 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
