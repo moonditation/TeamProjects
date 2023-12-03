@@ -8,14 +8,12 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.chat.ChatActivity;
 import com.example.myapplication.databinding.ItemActivePromBinding;
 import com.example.myapplication.list_prom.active_and_time_in_promise_info;
-import com.example.myapplication.list_prom.active_promise_info;
 import com.example.myapplication.map.NaverMapRealNew;
 
 import java.util.List;
@@ -25,7 +23,7 @@ public class Prom_activied_adapter extends RecyclerView.Adapter<Prom_activied_ad
     private ItemActivePromBinding binding;
     private Context context;
 
-    public Prom_activied_adapter(List<Promise> promiseList, Context context) {
+    public Prom_activied_adapter(List<Promise> promiseList) {
         this.promiseList = promiseList;
     }
 
