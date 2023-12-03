@@ -40,17 +40,20 @@ public class activied_promise extends Fragment {
         List<Promise> dataList = generateData(); // 데이터 생성
         Prom_activied_adapter adapter = new Prom_activied_adapter(dataList);
         recyclerView.setAdapter(adapter);
+
+
+
     }
 
     private List<Promise> generateData() {
         List<Promise> dataList = new ArrayList<>();
         // 데이터를 원하는대로 추가
-        dataList.add(new Promise("문관록 1"));
-        dataList.add(new Promise("문관록 2"));
-        dataList.add(new Promise("문관록 3"));
-        dataList.add(new Promise("문관록 4"));
-        dataList.add(new Promise("문관록 5"));
-        dataList.add(new Promise("문관록 6"));
+        dataList.add(new Promise("동네 약속", "sewf"));
+//        dataList.add(new Promise("문관록 2"));
+//        dataList.add(new Promise("문관록 3"));
+//        dataList.add(new Promise("문관록 4"));
+//        dataList.add(new Promise("문관록 5"));
+//        dataList.add(new Promise("문관록 6"));
         // ...
         return dataList;
     }

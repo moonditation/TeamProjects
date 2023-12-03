@@ -46,12 +46,12 @@ public class completed_promise extends Fragment {
     private List<Promise> generateData() {
         List<Promise> dataList = new ArrayList<>();
         // 데이터를 원하는대로 추가
-        dataList.add(new Promise("이우혁 1"));
-        dataList.add(new Promise("이우혁 2"));
-        dataList.add(new Promise("이우혁 3"));
-        dataList.add(new Promise("이우혁 4"));
-        dataList.add(new Promise("이우혁 5"));
-        dataList.add(new Promise("이우혁 6"));
+        dataList.add(new Promise("동네 약속", "fewfwf"));
+//        dataList.add(new Promise("이우혁 2"));
+//        dataList.add(new Promise("이우혁 3"));
+//        dataList.add(new Promise("이우혁 4"));
+//        dataList.add(new Promise("이우혁 5"));
+//        dataList.add(new Promise("이우혁 6"));
         // ...
         return dataList;
     }

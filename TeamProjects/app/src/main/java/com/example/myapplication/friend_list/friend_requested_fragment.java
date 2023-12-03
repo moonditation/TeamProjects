@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,6 +40,7 @@ public class friend_requested_fragment extends Fragment {
     private FragmentFriendRequestedFragmentBinding binding;
     private List<User> userList;
     private friend_request_adapter adapter;
+    private float initY;
     private Friend_received_adapter friendReceivedAdapter = null;
 
 
@@ -61,18 +63,10 @@ public class friend_requested_fragment extends Fragment {
 //        dataList = generateData(); // 데이터 생성
         userList = new ArrayList<>();
         fetchAllUsers();
-        adapter = new friend_request_adapter(userList, new friend_request_adapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String userName, String id) {
-
-            }
-        });
+        adapter = new friend_request_adapter(userList);
 
         recyclerView.setAdapter(adapter);
-
-
         wordInput();
-
 
         // 프래그먼트 2의 종료 이벤트 처리
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {

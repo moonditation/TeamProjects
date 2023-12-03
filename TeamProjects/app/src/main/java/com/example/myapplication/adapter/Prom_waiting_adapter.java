@@ -62,6 +62,6 @@ public class Prom_waiting_adapter extends RecyclerView.Adapter<Prom_waiting_adap
                         .commit();
             });
         }
-        private void bind(Promise text){binding.promiseName.setText(text.name);}
+        private void bind(Promise text){binding.promiseName.setText(text.getPromiseName());}
     }
 }
