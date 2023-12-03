@@ -28,6 +28,8 @@ import com.example.myapplication.map.NaverMapGeoCodingTest;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,6 +45,7 @@ public class click_make_promise extends Fragment {
     private int selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute;
     private double selectLatitude, selectLongitude;
     private static final int REQUEST_CODE = 1000;
+    String myUid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +63,11 @@ public class click_make_promise extends Fragment {
         FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.added_friend_list, added_friend);
         fragmentTransaction.commit();
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        myUid = currentUser.getUid();
+
 
         Button dateButton = binding.promiseDay;
         dateButton.setOnClickListener(new View.OnClickListener() {
@@ -213,11 +221,14 @@ public class click_make_promise extends Fragment {
         promiseData.put("promiseLongitude", promiseLongitude);
         promiseData.put("promiseName", promiseNameString);
 
+
 // Firestore에 데이터 추가
         promisesCollectionRef.add(promiseData)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        String promiseDocumentId = documentReference.getId();
+                        addPromiseToUserCollection(myUid, promiseDocumentId);
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                         // 추가 성공 시 처리할 내용
                     }
@@ -227,6 +238,80 @@ public class click_make_promise extends Fragment {
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error adding document", e);
                         // 실패 시 처리할 내용
+                    }
+                });
+
+
+    }
+
+
+    ////////user의 promises에 문서 uid 넣어주기
+    private void addPromiseToUserCollection(String myUid, String promiseDocumentId) {
+        // 현재 유저의 문서 참조 가져오기
+        DocumentReference userDocRef = firestore.collection("users").document(myUid);
+
+        // promises 서브컬렉션에 새로운 문서 추가
+        userDocRef.collection("promises").document(promiseDocumentId)
+                .set(new HashMap<>()) // 빈 데이터를 추가하거나 필요한 데이터를 넣어주세요
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // 문서 추가 성공 시 처리
+                        Log.d("Firestore", "Document added successfully to user's promises collection");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 문서 추가 실패 시 처리
+                        Log.e("Firestore", "Error adding document to user's promises collection", e);
+                    }
+                });
+    }
+
+
+    private void withFriend(){
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String myUid = currentUser.getUid();
+            String myName = currentUser.getDisplayName(); // 사용자의 이름 또는 다른 정보 가져오기
+
+            // 자신의 정보를 friendData에 추가
+            Map<String, Object> myData = new HashMap<>();
+            myData.put("friendAccept", true);
+            myData.put("friendArrive", false);
+            myData.put("friendArriveTime", Timestamp.now());
+            myData.put("friendId", "자신의 ID 또는 다른 고유 식별자");
+            myData.put("friendLatitude", "자신의 위도");
+            myData.put("friendLongitude", "자신의 경도");
+            myData.put("friendName", myName); // 사용자의 이름 또는 다른 정보 추가
+            myData.put("friendUid", myUid); // 자신의 UID 추가
+
+            // friendData에 자신의 정보 추가 후, friend 서브컬렉션에 문서 추가
+            addFriendToPromise("약속 문서 ID", myData); // 약속 문서 ID를 넣어주세요
+        }
+    }
+
+
+    /////////////이제 친구 목록 하는거에서 Map의 값 받아서 하면 됨
+    private void addFriendToPromise(String promiseDocumentId, Map<String, Object> friendData) {
+        // 약속 문서 참조 가져오기
+        DocumentReference promiseDocRef = firestore.collection("promisesPractice").document(promiseDocumentId);
+
+        // friend 서브컬렉션에 새로운 문서 추가
+        promiseDocRef.collection("friend").add(friendData)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        // 문서 추가 성공 시 처리
+                        Log.d("Firestore", "Friend document added successfully to promise's friend collection");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 문서 추가 실패 시 처리
+                        Log.e("Firestore", "Error adding friend document to promise's friend collection", e);
                     }
                 });
     }
