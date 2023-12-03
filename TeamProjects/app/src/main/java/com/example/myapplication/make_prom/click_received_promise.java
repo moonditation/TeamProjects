@@ -56,12 +56,12 @@ public class click_received_promise extends Fragment {
     private List<Promise> generateData() {
         List<Promise> dataList = new ArrayList<>();
         // 데이터를 원하는대로 추가
-        dataList.add(new Promise("문관록 1"));
-        dataList.add(new Promise("문관록 2"));
-        dataList.add(new Promise("문관록 3"));
-        dataList.add(new Promise("문관록 4"));
-        dataList.add(new Promise("문관록 5"));
-        dataList.add(new Promise("문관록 6"));
+//        dataList.add(new Promise("문관록 1"));
+//        dataList.add(new Promise("문관록 2"));
+//        dataList.add(new Promise("문관록 3"));
+//        dataList.add(new Promise("문관록 4"));
+//        dataList.add(new Promise("문관록 5"));
+//        dataList.add(new Promise("문관록 6"));
         // ...
         return dataList;
     }

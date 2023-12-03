@@ -46,13 +46,15 @@ public class friend_list_click_fragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+
+    // 수정
     private List<User> generateData() {
         List<User> dataList = new ArrayList<>();
         // 데이터를 원하는대로 추가
-        dataList.add(new User("이우혁", "7dngur7"));
-        dataList.add(new User("이우혁", "7dngur7"));
-        dataList.add(new User("이우혁", "7dngur7"));
-        dataList.add(new User("이우혁", "7dngur7"));
+//        dataList.add(new User("이우혁", "7dngur7"));
+//        dataList.add(new User("이우혁", "7dngur7"));
+//        dataList.add(new User("이우혁", "7dngur7"));
+//        dataList.add(new User("이우혁", "7dngur7"));
         // ...
         return dataList;
     }

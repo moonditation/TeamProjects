@@ -1,6 +1,9 @@
 package com.example.myapplication.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.chat.ChatActivity;
 import com.example.myapplication.databinding.ItemActivePromBinding;
 import com.example.myapplication.list_prom.active_and_time_in_promise_info;
 import com.example.myapplication.list_prom.active_promise_info;
@@ -17,14 +21,17 @@ import java.util.List;
 public class Prom_activied_adapter extends RecyclerView.Adapter<Prom_activied_adapter.PromiseViewHolder> {
 
     private List<Promise> promiseList;
+    private ItemActivePromBinding binding;
+    private Context context;
+    private String documentUid;
 
-    public Prom_activied_adapter(List<Promise> promiseList) {
+    public Prom_activied_adapter(List<Promise> promiseList, Context context) {
         this.promiseList = promiseList;
     }
 
     @Override
     public PromiseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemActivePromBinding binding = ItemActivePromBinding.inflate(LayoutInflater.from(
+        binding = ItemActivePromBinding.inflate(LayoutInflater.from(
                 parent.getContext()),
                 parent,
                 false);
@@ -35,6 +42,24 @@ public class Prom_activied_adapter extends RecyclerView.Adapter<Prom_activied_ad
     public void onBindViewHolder(PromiseViewHolder holder, int position) {
         Promise name = promiseList.get(position);
         holder.bind(name);
+
+        binding.activePromChatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getBindingAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    // 현재 위치(position)를 사용할 수 있음
+                    Intent intent = new Intent(v.getContext(), ChatActivity.class);
+
+                    String chatRoomName = promiseList.get(position).getPromiseName();
+                    intent.putExtra("chatRoomName", chatRoomName);
+
+                    v.getContext().startActivity(intent);
+
+                }
+            }
+        });
+
     }
 
     @Override
@@ -70,6 +95,6 @@ public class Prom_activied_adapter extends RecyclerView.Adapter<Prom_activied_ad
 //                        .commit();
             });
         }
-        private void bind(Promise text){binding.promiseName.setText(text.name);}
+        private void bind(Promise text){binding.promiseName.setText(text.getPromiseName());}
     }
 }

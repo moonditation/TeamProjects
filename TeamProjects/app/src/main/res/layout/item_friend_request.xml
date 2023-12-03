@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:id="@+id/userName"
+                android:id="@+id/userName_request"
                 android:text="문관록"
                 android:textSize="13sp" />
 
@@ -67,7 +67,7 @@
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
-                android:id="@+id/userId"
+                android:id="@+id/userId_request"
                 android:text="gwanrokMoon"
                 android:textSize="13sp" />
 

@@ -56,12 +56,12 @@ public class late_list_click extends Fragment {
     private List<User> generateData() {
         List<User> dataList = new ArrayList<>();
         // 데이터를 원하는대로 추가
-        dataList.add(new User("이우혁", "7dngur7"));
-        dataList.add(new User("문관록","gr1004"));
-        dataList.add(new User("이종민","ljm0000"));
-        dataList.add(new User("김김김","0107"));
-        dataList.add(new User("육육육","0531"));
-        dataList.add(new User("민민민","0202"));
+//        dataList.add(new User("이우혁", "7dngur7"));
+//        dataList.add(new User("문관록","gr1004"));
+//        dataList.add(new User("이종민","ljm0000"));
+//        dataList.add(new User("김김김","0107"));
+//        dataList.add(new User("육육육","0531"));
+//        dataList.add(new User("민민민","0202"));
         // ...
         return dataList;
     }

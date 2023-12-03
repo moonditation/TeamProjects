@@ -48,10 +48,10 @@ public class added_friend extends Fragment {
     private List<User> generateData() {
         List<User> dataList = new ArrayList<>();
         // 데이터를 원하는대로 추가
-        dataList.add(new User("이우혁", "7dngur7"));
-        dataList.add(new User("이우혁", "7dngur7"));
-        dataList.add(new User("이우혁", "7dngur7"));
-        dataList.add(new User("이우혁", "7dngur7"));
+//        dataList.add(new User("이우혁", "7dngur7"));
+//        dataList.add(new User("이우혁", "7dngur7"));
+//        dataList.add(new User("이우혁", "7dngur7"));
+//        dataList.add(new User("이우혁", "7dngur7"));
         // ...
         return dataList;
     }

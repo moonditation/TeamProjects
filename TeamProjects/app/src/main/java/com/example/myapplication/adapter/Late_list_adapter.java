@@ -64,7 +64,7 @@ public class Late_list_adapter extends RecyclerView.Adapter<Late_list_adapter.La
                         .commit();
             });
         }
-        private void bind(Promise text){binding.lateProm.setText(text.name);}
+        private void bind(Promise text){binding.lateProm.setText(text.getPromiseName());}
     }
 }
 

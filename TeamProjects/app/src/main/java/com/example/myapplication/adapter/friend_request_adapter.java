@@ -22,9 +22,12 @@ public class friend_request_adapter extends RecyclerView.Adapter<friend_request_
 
     private List<User> userList;
 
+
+
     public friend_request_adapter(List<User> userList) {
         this.userList = userList;
     }
+
 
     @Override
     public friendRequestViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,15 +61,7 @@ public class friend_request_adapter extends RecyclerView.Adapter<friend_request_
             super(binding.getRoot());
             this.binding = binding;
 
-            binding.userInfo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // 띄워진 리싸이클러뷰 item이다.
-                    // 클릭을 통해서, added_friend 즉, 함꼐할 친구 목록에 넣어준다.
-                    // 만약, 이미 담긴 파티원이라면, 토스트문구와 함께 담기지 않게 된다.
-                    Toast.makeText(view.getContext(), "추가", Toast.LENGTH_LONG).show();
-                }
-            });
+
         }
         private void bind(User text){
             binding.userName.setText(text.name);

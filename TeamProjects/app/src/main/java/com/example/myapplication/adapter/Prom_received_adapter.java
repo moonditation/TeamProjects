@@ -64,7 +64,7 @@ public class Prom_received_adapter extends RecyclerView.Adapter<Prom_received_ad
                         .commit();
             });
         }
-        private void bind(Promise text){binding.promiseName.setText(text.name);}
+        private void bind(Promise text){binding.promiseName.setText(text.getPromiseName());}
     }
 }
 

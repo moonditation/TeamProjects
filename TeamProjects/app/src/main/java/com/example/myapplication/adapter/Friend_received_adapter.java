@@ -18,8 +18,11 @@ public class Friend_received_adapter extends RecyclerView.Adapter<Friend_receive
         this.userList = userList;
     }
 
+
     @Override
     public friendReceiveViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+
         ItemFriendRequestBinding binding = ItemFriendRequestBinding.inflate(LayoutInflater.from(
                         parent.getContext()),
                 parent,
@@ -47,7 +50,15 @@ public class Friend_received_adapter extends RecyclerView.Adapter<Friend_receive
             this.binding = binding;
         }
         private void bind(User text){
-            binding.userName.setText(text.name);
-            binding.userId.setText(text.id);}
+            binding.userNameRequest.setText(text.name);
+            binding.userIdRequest.setText(text.id);}
+    }
+
+    public void addUser(User user) {
+        // 클릭한 사용자 정보를 받아와서 뷰바인딩 및 인플레이트하는 작업 수행
+        // 예시: 새로운 레이아웃을 인플레이트하고 사용자 정보를 설정하는 작업
+        // 인플레이트한 뷰를 리사이클러뷰에 추가
+        userList.add(user);
+        notifyDataSetChanged();
     }
 }

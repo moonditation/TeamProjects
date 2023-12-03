@@ -52,12 +52,12 @@ public class waiting_promise extends Fragment {
     private List<Promise> generateData() {
         List<Promise> dataList = new ArrayList<>();
         // 데이터를 원하는대로 추가
-        dataList.add(new Promise("이종민 1"));
-        dataList.add(new Promise("이종민 2"));
-        dataList.add(new Promise("이종민 3"));
-        dataList.add(new Promise("이종민 4"));
-        dataList.add(new Promise("이종민 5"));
-        dataList.add(new Promise("이종민 6"));
+//        dataList.add(new Promise("이종민 1"));
+//        dataList.add(new Promise("이종민 2"));
+//        dataList.add(new Promise("이종민 3"));
+//        dataList.add(new Promise("이종민 4"));
+//        dataList.add(new Promise("이종민 5"));
+//        dataList.add(new Promise("이종민 6"));
         // ...
         return dataList;
     }
