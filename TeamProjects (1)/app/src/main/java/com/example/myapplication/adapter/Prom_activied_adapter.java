@@ -1,7 +1,11 @@
 package com.example.myapplication.adapter;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,9 +97,13 @@ public class Prom_activied_adapter extends RecyclerView.Adapter<Prom_activied_ad
                 // 얘는 분기점을 통해서, active_and_time_in_promise_info 자료 중 하나가 떠오를 것.
                 int position = getAdapterPosition();
                 //이 position으로 id 파악해서 자료 뽑을거임
-                Promise promise = promiseList.get(position);
-                //종료할 수 있는 약속
+                String promiseUid = promiseList.get(position).getPromiseUid();
+                Log.d("promiceaccept", promiseUid);
+                Bundle bundle = new Bundle();
+                bundle.putString("promiseUid", promiseUid);//종료할 수 있는 약속
                 FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+
+                fragmentManager.setFragmentResult("promiseUidBundle", bundle);
                 active_and_time_in_promise_info active_and_time_in_promise_info = new active_and_time_in_promise_info();
                 fragmentManager.beginTransaction()
                         .add(R.id.frame_layout, active_and_time_in_promise_info)

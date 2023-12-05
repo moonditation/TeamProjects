@@ -105,18 +105,20 @@
                         android:textAlignment="viewStart"
                         android:textColor="@color/blue_1"
                         android:textSize="15sp"/>
+
                     <TextView
+                        android:id="@+id/delay_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/delay_time"
                         android:text="##"
                         android:textAlignment="viewStart"
                         android:textColor="@color/blue_1"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
                     <TextView
+                        android:id="@+id/time_exceed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="분 이상이 경과하였습니다."
+                        android:text="분이 경과하였습니다."
                         android:textAlignment="viewStart"
                         android:textColor="@color/blue_1"
                         android:textSize="15sp"/>
@@ -172,7 +174,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="지각자: "
+                        android:text="도착 안한 사람: "
                         android:textAlignment="viewStart"
                         android:textColor="@color/blue_1"
                         android:textSize="15sp"/>

@@ -123,27 +123,50 @@ public class activied_promise extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        // 문서에 있는 promiseDate 필드의 타임스탬프 가져오기
+                        // 첫 번째 메서드의 내용 - promiseDate 가져오기 및 시간 유효성 확인
                         Timestamp promiseTimestamp = document.getTimestamp("promiseDate");
 
                         if (promiseTimestamp != null) {
                             Date promiseDate = promiseTimestamp.toDate();
 
-                            // 현재 시간과 30분 이내의 시간과의 차이 계산
                             long timeDifference = promiseDate.getTime() - currentTime.getTime();
-                            Log.d("woohyukActive", timeDifference+"");
-
-                            // 현재 시간과 promiseDate가 +-30분 이내의 차이인지 확인
                             boolean isActive = Math.abs(timeDifference) <= 30 * 60 * 1000;
-                            Log.d("woohyukActive2", isActive+"");
-                            // 외부의 콜백 함수를 호출하여 결과를 반환
-                            callback.onComplete(isActive);
-                            return;
+
+                            if (isActive) {
+                                // 액티브 조건이 충족되었을 때 두 번째 메서드의 내용 - promiseAcceptPeople와 friendsCount 확인
+                                long promiseAcceptPeople = document.getLong("promiseAcceptPeople");
+
+                                db.collection("promisesPractice")
+                                        .document(promiseDocumentUid)
+                                        .collection("friends")
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    int friendsCount = task.getResult().size();
+                                                    callback.onComplete(isActive && (promiseAcceptPeople == friendsCount));
+                                                } else {
+                                                    callback.onComplete(false);
+                                                }
+                                            }
+                                        });
+                            } else {
+                                // 시간 유효하지 않을 때 false 반환
+                                callback.onComplete(false);
+                            }
+                        } else {
+                            // promiseDate가 없을 때 처리
+                            callback.onComplete(false);
                         }
+                    } else {
+                        // 문서가 존재하지 않을 때 처리
+                        callback.onComplete(false);
                     }
+                } else {
+                    // 문서 가져오기 실패 시 처리
+                    callback.onComplete(false);
                 }
-                // 조건에 맞지 않거나 문서가 존재하지 않을 경우 false 반환
-                callback.onComplete(false);
             }
         });
     }

@@ -82,7 +82,7 @@ public class waiting_promise extends Fragment {
                                         int count = activePromisesCount.incrementAndGet();
                                         // 모든 비동기 호출이 완료되면 어댑터 설정
                                         if (count == promisesCount) {
-                                            Prom_activied_adapter adapter = new Prom_activied_adapter(dataList);
+                                            Prom_waiting_adapter adapter = new Prom_waiting_adapter(dataList);
                                             recyclerView.setAdapter(adapter);
                                         }
                                     }
@@ -90,7 +90,7 @@ public class waiting_promise extends Fragment {
                             }
 
                             // 어댑터와 데이터 연결
-                            Prom_activied_adapter adapter = new Prom_activied_adapter(dataList);
+                            Prom_waiting_adapter adapter = new Prom_waiting_adapter(dataList);
                             recyclerView.setAdapter(adapter);
                         } else {
                             // 에러 처리
