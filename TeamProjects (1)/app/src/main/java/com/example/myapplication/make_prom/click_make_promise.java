@@ -161,6 +161,10 @@ public class click_make_promise extends Fragment {
                         selectedYear = year;
                         selectedMonth = month;
                         selectedDay = dayOfMonth;
+
+                        binding.promiseDay.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+
+
                     }
                 },
                 initialYear,
@@ -183,6 +187,9 @@ public class click_make_promise extends Fragment {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         selectedHour = hourOfDay;
                         selectedMinute = minute;
+
+                        binding.promiseTime.setText(hourOfDay + ":" + minute);
+
                     }
                 },
                 initialHour,

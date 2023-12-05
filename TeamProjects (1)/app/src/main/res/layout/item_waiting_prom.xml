@@ -32,14 +32,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@android:color/transparent"
-                android:text="~~ / ~~ / ~~"
                 android:textSize="15sp" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@android:color/transparent"
-                android:text="~명"
                 android:textSize="15sp" />
         </LinearLayout>
 

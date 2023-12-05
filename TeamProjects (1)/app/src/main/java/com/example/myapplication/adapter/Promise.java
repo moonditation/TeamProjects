@@ -13,7 +13,7 @@ public class Promise {
     private String promiseName;
     private String promiseUid;
 
-    public  Promise(String promiseName, String promiseUid){
+    public Promise(String promiseName, String promiseUid){
         this.promiseUid = promiseUid;
         this.promiseName = promiseName;
     }

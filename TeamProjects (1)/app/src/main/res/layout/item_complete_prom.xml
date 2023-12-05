@@ -28,13 +28,13 @@
                     android:layout_height="30dp"
                     android:background="@android:color/transparent"
                     android:textSize="15sp"
-                    android:text="~~ / ~~ / ~~"/>
+                    />
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:background="@android:color/transparent"
                     android:textSize="15sp"
-                    android:text="~명"/>
+                   />
             </LinearLayout>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/complete_edit_promise"
