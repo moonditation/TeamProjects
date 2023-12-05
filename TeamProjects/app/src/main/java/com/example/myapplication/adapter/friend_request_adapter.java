@@ -124,26 +124,25 @@ public class friend_request_adapter extends RecyclerView.Adapter<friend_request_
                 });
     }
 
+
+    // senderUid가 나, receiverUid가 상대방
     private void checkIfFriendsEachOther(String senderUid, String receiverUid, int position) {
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Log.d("CheckFriends", senderUid);
         db.collection("users")
-                .document(currentUserId)
-                .collection("friends")
                 .document(senderUid)
+                .collection("friends")
+                .whereEqualTo("uid", receiverUid)
                 .get()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            // 이미 친구인 경우
-                            Toast.makeText(binding.getRoot().getContext(), "이미 친구입니다.", Toast.LENGTH_LONG).show();
-                        } else {
-                            // 친구가 아닌 경우
-                            // 여기서 추가적으로 친구 요청을 보내거나 다른 동작 수행 가능
-                            checkIfFriendRequestAlreadyArrived(senderUid, receiverUid, position);
-                        }
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        // 이미 친구인 경우
+                        Log.d("FriendRequest", "이미 친구입니다.");
+                        Toast.makeText(binding.getRoot().getContext(), "이미 친구입니다.", Toast.LENGTH_LONG).show();
                     } else {
-                        Log.e("CheckFriends", "친구 여부 확인 중 오류 발생", task.getException());
+                        // 친구가 아닌 경우
+                        // 여기서 추가적으로 친구 요청을 보내거나 다른 동작 수행 가능
+                        Log.d("FriendRequest", "친구가 아닙니다.");
+                        checkIfFriendRequestAlreadyArrived(senderUid, receiverUid, position);
                     }
                 });
 

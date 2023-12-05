@@ -8,11 +8,11 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 
 import com.example.myapplication.R;
@@ -34,7 +34,7 @@ import java.net.URLEncoder;
 
 public class NaverMapGeoCodingTest extends AppCompatActivity implements OnMapReadyCallback {
 
-    private AppCompatButton updateButton;
+    private Button updateButton;
     private FirebaseFirestore db;
     private NaverMap naverMap;
     EditText editText;
@@ -59,7 +59,7 @@ public class NaverMapGeoCodingTest extends AppCompatActivity implements OnMapRea
 
         updateButton = findViewById(R.id.update_button);
         updateButton.setOnClickListener(view -> updateCoordinatesToFirestore());
-        AppCompatButton button = findViewById(R.id.button);
+        Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -21,7 +21,12 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -71,10 +76,13 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
 
     private Button updateButton;
     private Button promisePlace;
-    int numOfMembers = 3;
+
 
     private Handler locationUpdateHandler = new Handler();
     private int locationUpdateInterval = 5000; // 5초 간격
+    private CollectionReference friendCollectionRef;
+    private String myUid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,28 +100,33 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
         initializeCloudFirestore();
         mapFragment.getMapAsync(this);
 
-        CollectionReference collectionRef = db.collection("members");
-        collectionRef.get().addOnCompleteListener(task -> {
+        Log.d("collection", getIntent().getStringExtra("promiseUid"));
+        friendCollectionRef= db.collection("promisesPractice").document(getIntent().getStringExtra("promiseUid")).collection("friends");
+        friendCollectionRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 if (querySnapshot != null) {
                     int numOfButtons = querySnapshot.size();
+                    Log.d("collection", ""+numOfButtons);
                     makeButtons(numOfButtons);
                 } else {
-                    Log.d(TAG, "쿼리 스냅샷이 null입니다.");
+                    Log.d("collection", "쿼리 스냅샷이 null입니다.");
                 }
             } else {
-                Log.d(TAG, "문서 가져오기 오류: ", task.getException());
+                Log.d("collection", "문서 가져오기 오류: ", task.getException());
             }
         });
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        myUid = user.getUid();
 
+        // 업데이트 버튼 클릭 시 처리할 코드
         updateButton = findViewById(R.id.update_button);
         updateButton.setOnClickListener(v -> {
-            // 업데이트 버튼 클릭 시 처리할 코드
             getCollectionAndMakeMemberTest(0);
         });
 
+        // 약속장소 버튼 클릭 시 처리할 코드
         promisePlace = findViewById(R.id.primise_location_move_button);
         promisePlace.setOnClickListener(v -> {
             getCollectionAndMakeMemberTest(1);
@@ -122,7 +135,6 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
 
         // fusedLocationClient 초기화
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        db = FirebaseFirestore.getInstance();
 
         // 위치 업데이트 시작
         startLocationUpdates();
@@ -132,26 +144,24 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
 
 
     private void initializeCloudFirestore() {
-        // Access a Cloud Firestore instance from your Activity
         db = FirebaseFirestore.getInstance();
     }
 
-
     private void getCollectionAndMakeMemberTest(int codeNum) {
-        CollectionReference collectionRef = db.collection("members");
-        collectionRef.get().addOnCompleteListener(task -> {
+        friendCollectionRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 removeMarkersAndInfoWindows();
                 removeSafeCircleZone();
+
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Map<String, Object> data = document.getData();
 
-                    String name = (String) data.get("name");
-                    Double latitude = (Double) data.get("latitude");
-                    Double longitude = (Double) data.get("longitude");
-
+                    String name = (String) data.get("friendName");
+                    Double latitude = (Double) data.get("friendLatitude");
+                    Double longitude = (Double) data.get("friendLongitude");
 
                     if (latitude != null && longitude != null) {
+                        // 마커와 인포윈도우 추가
                         Marker marker = new Marker();
                         marker.setPosition(new LatLng(latitude, longitude));
                         markerList.add(marker);
@@ -165,8 +175,6 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
                             }
                         });
                         infoWindowList.add(infoWindow);
-
-
                     } else {
                         Log.d(TAG, "잘못된 위경도 데이터: " + data);
                     }
@@ -174,24 +182,61 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
                 // 모든 마커와 인포윈도우를 지도에 추가
                 addMarkersToMap();
 
-
                 if (!markerList.isEmpty() && codeNum == 1) {
-                    LatLng firstLocation = markerList.get(3).getPosition();
-                    CameraUpdate cameraUpdate = CameraUpdate.scrollTo(firstLocation).animate(CameraAnimation.Linear);
-                    naverMap.moveCamera(cameraUpdate);
+                    DocumentReference documentReference = db.collection("promisesPractice").document(getIntent().getStringExtra("promiseUid"));
+                    documentReference.get().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            DocumentSnapshot document = task1.getResult();
+                            if (document.exists()) {
+                                Double latitude = document.getDouble("promiseLatitude");
+                                Double longitude = document.getDouble("promiseLongitude");
+
+                                if (latitude != null && longitude != null) {
+                                    LatLng firstLocation = new LatLng(latitude, longitude);
+                                    CameraUpdate cameraUpdate = CameraUpdate.scrollTo(firstLocation).animate(CameraAnimation.Linear);
+                                    naverMap.moveCamera(cameraUpdate);
+                                } else {
+                                    Log.d("Latitude", "Latitude 또는 Longitude 값이 null");
+                                }
+                            } else {
+                                Log.d("Latitude", "해당 문서가 존재하지 않습니다");
+                            }
+                        } else {
+                            Log.d("Latitude", "문서 가져오기 실패");
+                        }
+                    });
                 }
 
-                //특정 위치에 원 추가
+                // 특정 위치에 원 추가
                 if (!markerList.isEmpty()) {
-                    LatLng firstLocation = markerList.get(3).getPosition();
-                    makeSafeCircleZone(firstLocation);
+                    DocumentReference documentReference = db.collection("promisesPractice").document(getIntent().getStringExtra("promiseUid"));
+
+                    documentReference.get().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            DocumentSnapshot document = task1.getResult();
+                            if (document.exists()) {
+                                Double latitude = document.getDouble("promiseLatitude");
+                                Double longitude = document.getDouble("promiseLongitude");
+
+                                if (latitude != null && longitude != null) {
+                                    LatLng firstLocation = new LatLng(latitude, longitude);
+                                    makeSafeCircleZone(firstLocation);
+                                } else {
+                                    Log.d("Latitude", "Latitude 또는 Longitude 값이 null입니다.");
+                                }
+                            } else {
+                                Log.d("Latitude", "해당 문서가 존재하지 않습니다.");
+                            }
+                        } else {
+                            Log.d("Latitude", "문서 가져오기 실패: ", task1.getException());
+                        }
+                    });
                 }
             } else {
                 Log.d(TAG, "문서 가져오기 오류: ", task.getException());
             }
         });
     }
-
 
     private void addMarkersToMap() {
         for (int i = 0; i < markerList.size(); i++) {
@@ -201,7 +246,7 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
             marker.setMap(naverMap);
             infoWindow.open(marker);
 
-            // 각 마커에 클릭 이벤트 추가
+            //클릭하면 infoWindow 나옴
             marker.setOnClickListener(overlay -> {
                 if (marker.getInfoWindow() == null) {
                     infoWindow.open(marker);
@@ -265,21 +310,21 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
 
     private void makeSafeCircleZone(LatLng latLng) {
         CircleOverlay circle = new CircleOverlay();
-        circle.setCenter(latLng); // 원의 중심 위치 설정
-        circle.setRadius(300); // 원의 반지름 설정 (미터 단위)
-        circle.setColor(Color.argb(128, 255, 0, 0)); // 원의 색상 설정
-        circle.setMap(naverMap); // 네이버 지도에 원 추가
+        circle.setCenter(latLng);
+        circle.setRadius(300); // 원의 반지름 설정 (미터)
+        circle.setColor(Color.argb(128, 255, 0, 0));
+        circle.setMap(naverMap);
 
-        safeCircleList.add(circle); // 리스트에 추가
+        safeCircleList.add(circle);
 
-//            // 클릭 시 원 안에 있는 마커를 찾아서 업데이트
-            for (Marker marker : markerList) {
-                if (circle.getBounds().contains(marker.getPosition())) {
-                    // 원 안에 해당 마커가 포함된 경우 Firestore 문서 업데이트
-                    updateInCircleFirestoreDocument(marker); // Firestore 업데이트 메서드 호출
-                    break; // 하나의 마커만 업데이트하기 위해 반복문 종료
-                }
+        // 클릭 시 원 안에 있는 마커를 찾아서 업데이트
+        for (Marker marker : markerList) {
+            if (circle.getBounds().contains(marker.getPosition())) {
+                // 원 안에 해당 마커가 포함된 경우 Firestore 문서 업데이트
+                updateInCircleFirestoreDocument(marker);
+                break;
             }
+        }
 
     }
     private void updateInCircleFirestoreDocument(Marker marker) {
@@ -287,19 +332,19 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
         // marker를 기준으로 Firestore 문서를 찾아서 업데이트하는 코드를 작성합니다.
         // 예시: "members" 컬렉션에서 특정 조건을 만족하는 문서를 찾아 필드를 업데이트합니다.
 
-        // 예시 코드:
-        db.collection("members")
-                .whereEqualTo("latitude", marker.getPosition().latitude)
-                .whereEqualTo("longitude", marker.getPosition().longitude)
+        friendCollectionRef
+                .whereEqualTo("friendLatitude", marker.getPosition().latitude)
+                .whereEqualTo("friendLongitude", marker.getPosition().longitude)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             // 해당 문서의 필드 업데이트
-                            if((boolean)document.get("arrive")==false){
-                                document.getReference().update("arrive", true); // "arrive" 필드를 1로 업데이트
-                                document.getReference().update("arriveTime", System.currentTimeMillis()); // "arriveTime" 필드를 현재 시간으로 업데이트
+                            if((boolean)document.get("friendArrive")==false){
+                                document.getReference().update("friendArrive", true); // "arrive" 필드를 1로 업데이트
 
+                                Timestamp timestamp = com.google.firebase.Timestamp.now();
+                                document.getReference().update("friendArriveTime", timestamp);
                             }
                         }
                     } else {
@@ -358,13 +403,6 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
     private void getLocationAndUpload() {
         // 위치 정보 가져오기
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         fusedLocationClient.getLastLocation()
@@ -384,20 +422,29 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
                     }
                 });
     }
-
+    ///////////////////////여기 해야
     private void uploadToFirestore(double latitude, double longitude) {
         // Firestore에 데이터 업로드
         Map<String, Object> data = new HashMap<>();
-        data.put("latitude", latitude);
-        data.put("longitude", longitude);
+        data.put("friendLatitude", latitude);
+        data.put("friendLongitude", longitude);
 
-        // "locations" 컬렉션에 새로운 문서로 데이터 추가
-        db.collection("locations")
-                .add(data)
-                .addOnSuccessListener(documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId()))
+
+        // 사용자 UID와 같은 이름의 문서를 찾아 데이터 업데이트
+        friendCollectionRef.whereEqualTo("friendUid", myUid)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        // 사용자의 UID와 일치하는 문서를 찾았을 때 데이터 업데이트
+                        documentSnapshot.getReference().update(data)
+                                .addOnSuccessListener(aVoid ->
+                                        Log.d(TAG, "DocumentSnapshot updated with ID: " + documentSnapshot.getId()))
+                                .addOnFailureListener(e ->
+                                        Log.e(TAG, "Error updating document", e));
+                    }
+                })
                 .addOnFailureListener(e ->
-                        Log.e(TAG, "Error adding document", e));
+                        Log.e(TAG, "Error getting documents", e));
     }
 
     @Override
@@ -443,11 +490,11 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
     }
 
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // 액티비티가 종료될 때 위치 업데이트 작업을 중지합니다.
-//        stopLocationUpdates();
-    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        // 액티비티가 종료될 때 위치 업데이트 작업 중지
+//         stopLocationUpdates();
+//    }
 }
