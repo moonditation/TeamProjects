@@ -66,6 +66,28 @@ public class friend_requested_fragment extends Fragment {
         adapter = new friend_request_adapter(userList);
 
         recyclerView.setAdapter(adapter);
+        binding.recyclerViewAddingFriend.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                if (e.getAction() == MotionEvent.ACTION_DOWN) {
+                    initY = e.getRawY();
+                } else if (e.getAction() == MotionEvent.ACTION_UP) {
+                    float diff = initY - e.getRawY();
+                    if (diff <= 5 && diff >= -5) {
+                        View selectView = rv.findChildViewUnder(e.getX(), e.getY());
+                        int viewPosition = rv.getChildLayoutPosition(selectView);
+//                        userList.get(viewPosition)  -> 클릭한 놈의 정보
+
+                    }
+                }
+                return false;
+            }
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {}
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
+        });
+
         wordInput();
 
         // 프래그먼트 2의 종료 이벤트 처리

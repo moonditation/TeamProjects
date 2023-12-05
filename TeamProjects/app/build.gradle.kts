@@ -77,4 +77,13 @@ dependencies {
     // FirebaseUI for Cloud Firestore
     implementation ("com.firebaseui:firebase-ui-firestore:8.0.0")
     implementation ("androidx.paging:paging-runtime:3.2.1")
+
+    // 네이버 지도 SDK
+    implementation("com.naver.maps:map-sdk:3.17.0")
+    //위치받아오기 구글서비스
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+//gson - geocoding 사용에 필요
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
 }

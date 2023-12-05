@@ -23,7 +23,6 @@
             android:src="@drawable/exit_chat"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
-            android:layout_gravity="center_vertical"
             android:backgroundTint="@color/lavender"/>
 
 
@@ -40,7 +39,6 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_back"
             android:visibility="invisible"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"/>

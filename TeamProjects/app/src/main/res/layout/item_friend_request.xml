@@ -81,6 +81,7 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/requestAcceptBtn"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:adjustViewBounds="true"
@@ -91,6 +92,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/requestRejectBtn"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:adjustViewBounds="true"

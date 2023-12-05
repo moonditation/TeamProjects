@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,20 @@ import android.view.ViewGroup;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.Friend_list_adapter;
 import com.example.myapplication.adapter.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class friend_list_click_fragment extends Fragment {
+    private FirebaseFirestore db;
+    private String currentUserId;
+    private Friend_list_adapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friend_list_click, container, false);
@@ -29,6 +39,10 @@ public class friend_list_click_fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        db = FirebaseFirestore.getInstance();
+        currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +56,7 @@ public class friend_list_click_fragment extends Fragment {
 
         // 어댑터와 데이터 연결
         List<User> dataList = generateData(); // 데이터 생성
-        Friend_list_adapter adapter = new Friend_list_adapter(dataList);
+        adapter = new Friend_list_adapter(dataList);
         recyclerView.setAdapter(adapter);
     }
 
@@ -50,12 +64,38 @@ public class friend_list_click_fragment extends Fragment {
     // 수정
     private List<User> generateData() {
         List<User> dataList = new ArrayList<>();
-        // 데이터를 원하는대로 추가
-//        dataList.add(new User("이우혁", "7dngur7"));
-//        dataList.add(new User("이우혁", "7dngur7"));
-//        dataList.add(new User("이우혁", "7dngur7"));
-//        dataList.add(new User("이우혁", "7dngur7"));
-        // ...
+        getFriendInfo(dataList);
+
         return dataList;
+    }
+
+    private void getFriendInfo(List<User> dataList) {
+        db.collection("users")
+                .document(currentUserId)
+                .collection("friends")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document: task.getResult()) {
+                                String friendName = document.getString("name");
+                                String friendId = document.getString("id");
+                                String friendUid = document.getString("uid");
+                                double friendReliabilitydouble = document.getDouble("reliability");
+                                float friendReliability = (float)friendReliabilitydouble;
+
+                                User user = new User(friendName, friendId, friendReliability, friendUid);
+
+                                Log.d("FriendList", "친구 정보 추가");
+                                dataList.add(user);
+                                adapter.notifyDataSetChanged();
+
+                            }
+                        } else {
+                            Log.d("FriendList", "친구 정보를 불러오기에 실패했습니다.");
+                        }
+                    }
+                });
     }
 }

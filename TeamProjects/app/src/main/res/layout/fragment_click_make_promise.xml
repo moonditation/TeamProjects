@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/make_promise"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -93,27 +94,28 @@
                     android:textAlignment="viewStart"
                     android:textColor="@color/lavender"
                     android:textSize="20sp"/>
-                <ImageButton
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/promise_day"
                     android:layout_marginStart="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/calendar"
-                    android:background="@color/white"
+                    android:drawableLeft="@drawable/calendar"
+                    android:background="@drawable/image_button"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitXY"/>
-                <EditText
-                    android:id="@+id/promise_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="~~~~년 ~월 ~일"
+                    android:scaleType="fitXY"
+                    android:hint="~년 ~월 ~일"
                     android:textAlignment="viewStart"
                     android:textColor="@color/lavender"
                     android:textSize="15sp"/>
-                <EditText
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/promise_time"
                     android:layout_marginStart="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/time"
+                    android:background="@drawable/image_button"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
                     android:hint="~~ : ~~"
                     android:textAlignment="viewStart"
                     android:textColor="@color/lavender"
@@ -139,34 +141,18 @@
                         android:textColor="@color/lavender"
                         android:textSize="20sp"/>
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/promise_place_address"
                         android:layout_margin="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/image_button"
                         android:drawableLeft="@drawable/search"
-                        android:text="주소로 찾기"
+                        android:text="위치 찾기"
                         />
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_margin="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/image_button"
-                        android:drawableLeft="@drawable/edit_location"
-                        android:text="지도로 찾기"
-                        />
+
                 </LinearLayout>
 
-                <TextView
-                    android:layout_marginStart="120dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="~~~~시 ~구 ~동"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/lavender"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:textSize="15sp"/>
+
             </LinearLayout>
             <LinearLayout
                 android:layout_marginTop="20dp"
@@ -174,49 +160,49 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:layout_marginStart="18dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="함께할 친구"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/lavender"
-                    android:textSize="20sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/make_new_promise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/pass_prom"
-                    android:text="생성하기"
-                    android:background="@drawable/image_button"
-                    android:textColor="@color/lavender"
-                    android:textSize="15sp"/>
-
-            </LinearLayout>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/add_friend"
+                    <TextView
                         android:layout_marginStart="18dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="함께할 친구"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/lavender"
+                        android:textSize="20sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/make_new_promise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/pass_prom"
+                        android:text="생성하기"
                         android:background="@drawable/image_button"
-                        android:drawableLeft="@drawable/person_search"
-                        android:text="함께할 친구 찾기"
-                        android:layout_marginBottom="15dp"
-                        />
+                        android:textColor="@color/lavender"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/add_friend"
+                    android:layout_marginStart="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/image_button"
+                    android:drawableLeft="@drawable/person_search"
+                    android:text="함께할 친구 찾기"
+                    android:layout_marginBottom="15dp"
+                    />
 
                 <FrameLayout
                     android:layout_width="match_parent"

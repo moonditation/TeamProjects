@@ -72,7 +72,6 @@ public class friend_received_fragment extends Fragment {
     }
     private void getSenderUid(List<User> dataList) {
         db.collection("friendRequests")
-                .whereNotEqualTo("status", "accepted")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -80,6 +79,8 @@ public class friend_received_fragment extends Fragment {
                             // 각 문서에서 senderUid 필드 값을 가져오기
                             String senderUid = document.getString("senderUid");
                             String receiverUid = document.getString("receiverUid");
+                            String pending =  document.getString("status");
+
                             db.collection("users")
                                     .document(senderUid)
                                     .get()
@@ -90,20 +91,22 @@ public class friend_received_fragment extends Fragment {
                                                 // 가져온 정보를 User 객체에 매핑
                                                 if (Objects.equals(receiverUid, mAuth.getUid())) {
 
-                                                    String userName = document2.getString("name");
-                                                    String userId = document2.getString("id");
-                                                    String userUid = document2.getString("uid");
 
-                                                    User user = new User(
-                                                            userName,
-                                                            userId,
-                                                            userUid
-                                                    );
+                                                String userName = document2.getString("name");
+                                                String userId = document2.getString("id");
+                                                String userUid = document2.getString("uid");
 
-                                                    Log.d("MGR", userName + userId);
-                                                    dataList.add(user);
-                                                    adapter.notifyDataSetChanged();
-                                                }
+                                                User user = new User(
+                                                        userName,
+                                                        userId,
+                                                        userUid
+                                                );
+
+                                                Log.d("MGR", userName + userId);
+                                                dataList.add(user);
+                                                adapter.notifyDataSetChanged();
+                                                ;
+                                            }
 
                                             } else {
                                                 // 문서가 존재하지 않을 경우 처리

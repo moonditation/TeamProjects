@@ -19,6 +19,7 @@ import com.example.myapplication.databinding.ItemFriendRequestBinding;
 import com.example.myapplication.make_prom.received_promise_info;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -59,11 +60,8 @@ public class friend_request_adapter extends RecyclerView.Adapter<friend_request_
                 if (currentUser != null) {
                     String senderUid = currentUser.getUid();
                     String receiverUid = userList.get(position).getUid();
-                    checkIfFriendRequestAlreadyArrived(senderUid, receiverUid, position);
+                    checkIfFriendsEachOther(senderUid, receiverUid, position);
                 }
-
-
-
             }
         });
 
@@ -124,6 +122,30 @@ public class friend_request_adapter extends RecyclerView.Adapter<friend_request_
                         Toast.makeText(binding.getRoot().getContext(), "친구 요청을 확인하는 도중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+
+    // senderUid가 나, receiverUid가 상대방
+    private void checkIfFriendsEachOther(String senderUid, String receiverUid, int position) {
+        Log.d("CheckFriends", senderUid);
+        db.collection("users")
+                .document(senderUid)
+                .collection("friends")
+                .whereEqualTo("uid", receiverUid)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        // 이미 친구인 경우
+                        Log.d("FriendRequest", "이미 친구입니다.");
+                        Toast.makeText(binding.getRoot().getContext(), "이미 친구입니다.", Toast.LENGTH_LONG).show();
+                    } else {
+                        // 친구가 아닌 경우
+                        // 여기서 추가적으로 친구 요청을 보내거나 다른 동작 수행 가능
+                        Log.d("FriendRequest", "친구가 아닙니다.");
+                        checkIfFriendRequestAlreadyArrived(senderUid, receiverUid, position);
+                    }
+                });
+
     }
 
 
