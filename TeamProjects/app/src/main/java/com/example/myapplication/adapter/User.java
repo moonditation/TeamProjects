@@ -30,6 +30,7 @@ public class User {
         this.uid = uid;
     }
 
+
     public String getName() {
         return name;
     }

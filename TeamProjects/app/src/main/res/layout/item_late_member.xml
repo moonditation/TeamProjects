@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/friend_info"
+    android:layout_margin="10dp"
+    android:elevation="20dp"
     android:id="@+id/user_info"
     >
 
@@ -43,12 +45,13 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="지각 정보:"
-                    android:textSize="18sp"
+                    android:text="지각 여부 : "
+                    android:textSize="16sp"
                     android:layout_gravity="center"
                     android:layout_weight="1"/>
                 <TextView
@@ -59,8 +62,50 @@
                     android:layout_marginStart="5dp"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:text="00"
-                    android:id="@+id/userLateTime"
-                    android:textSize="18sp"
+                    android:id="@+id/booleanLate"
+                    android:textSize="13sp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"/>
+
+
+            </LinearLayout>
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="horizontal">-->
+            <!--                <TextView-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="도착 시간 : "-->
+            <!--                    android:textSize="18sp"-->
+            <!--                    android:layout_gravity="center"-->
+            <!--                    android:layout_weight="1"/>-->
+            <!--                <TextView-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:singleLine="true"-->
+            <!--                    android:ellipsize="marquee"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:marqueeRepeatLimit="marquee_forever"-->
+            <!--                    android:text="00"-->
+            <!--                    android:id="@+id/userLateTime"-->
+            <!--                    android:textSize="18sp"-->
+            <!--                    android:layout_gravity="center"-->
+            <!--                    android:layout_weight="1"/>-->
+
+
+            <!--            </LinearLayout>-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="몇분 늦었나 : "
+                    android:textSize="16sp"
                     android:layout_gravity="center"
                     android:layout_weight="1"/>
                 <TextView
@@ -70,41 +115,17 @@
                     android:ellipsize="marquee"
                     android:layout_marginStart="5dp"
                     android:marqueeRepeatLimit="marquee_forever"
-                    android:text="분"
-                    android:textSize="18sp"
+                    android:text="00"
+                    android:id="@+id/userLateMinute"
+                    android:textSize="13sp"
                     android:layout_gravity="center"
                     android:layout_weight="1"/>
 
-            </LinearLayout>
 
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:elevation="-10dp"
-        android:background="@drawable/late_trust_point"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="신뢰도 변화:"
-            android:textSize="18sp"
-            android:layout_gravity="center"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:ellipsize="marquee"
-            android:layout_marginStart="15dp"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:text="00"
-            android:id="@+id/user_trust_point"
-            android:textSize="18sp"
-            android:layout_gravity="center" />
 
-    </LinearLayout>
 
 </LinearLayout>

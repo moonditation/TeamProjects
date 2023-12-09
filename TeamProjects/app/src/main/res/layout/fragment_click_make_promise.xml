@@ -103,7 +103,7 @@
                     android:background="@drawable/image_button"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
-                    android:hint="~년 ~월 ~일"
+                    android:hint="날짜설정"
                     android:textAlignment="viewStart"
                     android:textColor="@color/lavender"
                     android:textSize="15sp"/>
@@ -116,7 +116,7 @@
                     android:background="@drawable/image_button"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
-                    android:hint="~~ : ~~"
+                    android:hint="시간설정"
                     android:textAlignment="viewStart"
                     android:textColor="@color/lavender"
                     android:textSize="15sp"/>

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +36,7 @@ import java.net.URLEncoder;
 public class NaverMapGeoCodingTest extends AppCompatActivity implements OnMapReadyCallback {
 
     private Button updateButton;
+    private ImageButton cancelButton;
     private FirebaseFirestore db;
     private NaverMap naverMap;
     EditText editText;
@@ -42,10 +44,21 @@ public class NaverMapGeoCodingTest extends AppCompatActivity implements OnMapRea
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private FusedLocationSource locationSource;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_naver_map_geo_coding_test);
+
+        cancelButton = findViewById(R.id.cancel_button);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
+                finish();
+            }
+        });
 
         db = FirebaseFirestore.getInstance();
         editText = findViewById(R.id.editText);

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.databinding.ItemFriendAddBinding;
 import com.example.myapplication.databinding.ItemFriendBinding;
 import com.example.myapplication.databinding.ItemFriendRequestBinding;
+import com.example.myapplication.databinding.ItemPromiseRequestBinding;
 
 import java.util.List;
 public class Friend_list_adapter extends RecyclerView.Adapter<Friend_list_adapter.friendListViewHolder> {
@@ -50,4 +51,7 @@ public class Friend_list_adapter extends RecyclerView.Adapter<Friend_list_adapte
             binding.userName.setText(text.name);
             binding.userId.setText(text.id);}
     }
+
+
+
 }

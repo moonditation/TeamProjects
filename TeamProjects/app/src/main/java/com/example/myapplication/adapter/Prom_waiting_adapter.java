@@ -3,6 +3,7 @@ package com.example.myapplication.adapter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemActivePromBinding;
+import com.example.myapplication.databinding.ItemPromiseRequestBinding;
 import com.example.myapplication.databinding.ItemWaitingPromBinding;
 import com.example.myapplication.list_prom.complete_promise_info;
 import com.example.myapplication.list_prom.waiting_promise_info;
@@ -44,6 +46,10 @@ public class Prom_waiting_adapter extends RecyclerView.Adapter<Prom_waiting_adap
         return promiseList.size();
     }
 
+
+
+
+
     public class PromiseViewHolder extends RecyclerView.ViewHolder {
         private ItemWaitingPromBinding binding;
 
@@ -71,4 +77,48 @@ public class Prom_waiting_adapter extends RecyclerView.Adapter<Prom_waiting_adap
         }
         private void bind(Promise text){binding.promiseName.setText(text.getPromiseName());}
     }
+
+    public class PromiseFalseViewHolder extends RecyclerView.ViewHolder {
+        private ItemPromiseRequestBinding binding;
+
+        private PromiseFalseViewHolder(ItemPromiseRequestBinding binding){
+            super(binding.getRoot());
+            this.binding = binding;
+
+            binding.requestPromise.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                //이 position으로 id 파악해서 자료 뽑을거임
+                String promiseUid = promiseList.get(position).getPromiseUid();
+                Log.d("promiceaccept", promiseUid);
+                Bundle bundle = new Bundle();
+                bundle.putString("promiseUid", promiseUid);//종료할 수 있는 약속
+                FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+
+                fragmentManager.setFragmentResult("promiseUidBundle", bundle);
+                //처리해야하는 클릭이벤트.
+                waiting_promise_info waiting_promise_info = new waiting_promise_info();
+                fragmentManager.beginTransaction()
+                        .add(R.id.frame_layout, waiting_promise_info)
+                        .addToBackStack(null)
+                        .commit();
+            });
+
+            binding.requestAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            binding.requestDeny.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+        }
+        private void bind(Promise text){binding.promiseName.setText(text.getPromiseName());}
+    }
+
 }

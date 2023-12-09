@@ -3,6 +3,8 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_margin="10dp"
+    android:elevation="20dp"
     android:layout_height="110dp"
     android:background="@drawable/image_button"
     android:orientation="vertical">
@@ -16,7 +18,7 @@
         <TextView
             android:id="@+id/promise_name"
             android:layout_width="wrap_content"
-            android:layout_height="60sp"
+            android:layout_height="73dp"
             android:layout_margin="3dp"
             android:text="약속 이름"
             android:textColor="@color/blue_6"
@@ -26,22 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@android:color/transparent"
-                android:text="~~ / ~~ / ~~"
-                android:textSize="15sp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@android:color/transparent"
-                android:text="~명"
-                android:textSize="15sp" />
-        </LinearLayout>
+            android:orientation="vertical"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/request_promise"
@@ -82,6 +69,7 @@
                 android:drawableStart="@drawable/check_prom"
                 android:padding="1dp"
                 android:scaleType="fitXY"
+                android:id="@+id/request_accept"
                 android:text="수락하기"
                 android:textColor="@color/blue_6"
                 android:textSize="11sp" />
@@ -97,6 +85,7 @@
                 android:drawableStart="@drawable/cancel_prom"
                 android:padding="1dp"
                 android:scaleType="fitXY"
+                android:id="@+id/request_deny"
                 android:text="거절하기"
                 android:textColor="@color/blue_6"
                 android:textSize="11sp" />

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,8 +28,9 @@ import com.example.myapplication.initial_screen.FirstFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class adding_friend extends Fragment {
+public class adding_friend extends DialogFragment {
 
     private FragmentAddingFriendBinding binding;
     private List<User> dataList;
@@ -39,6 +41,7 @@ public class adding_friend extends Fragment {
 
         binding = FragmentAddingFriendBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+
         return view;
     }
 
@@ -104,7 +107,7 @@ public class adding_friend extends Fragment {
         List<User> filteredList = new ArrayList<>();
 
         for(User item : dataList){
-            if(item.getId().toLowerCase().contains(text.toLowerCase())){
+            if(item.getName().toLowerCase().contains(text.toLowerCase())){
                 filteredList.add(item);
             }
         }

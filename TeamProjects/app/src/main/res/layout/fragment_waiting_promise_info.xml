@@ -130,12 +130,14 @@
                         android:textColor="@color/lavender"
                         android:textSize="20sp"/>
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/promise_location"
                         android:layout_marginStart="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="~~~~시 ~구 ~동"
+                        android:background="@drawable/image_button"
+                        android:drawableLeft="@drawable/loaction"
+                        android:text="약속장소 보기"
                         android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:singleLine="true"
@@ -164,12 +166,12 @@
                         android:textColor="@color/lavender"
                         android:textSize="20sp"/>
                 </LinearLayout>
-                <FrameLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/added_friend_list">
 
-                </FrameLayout>
+                </TextView>
             </LinearLayout>
         </LinearLayout>
 

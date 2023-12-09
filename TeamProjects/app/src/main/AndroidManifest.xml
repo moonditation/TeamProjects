@@ -17,6 +17,9 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".map.NaverMapShowPromisePlace"
+            android:exported="false" />
+        <activity
             android:name=".chat.ChatActivity"
             android:exported="true" />
         <activity
@@ -63,10 +66,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="uilhyth3w8" />
-
     </application>
 
 </manifest>

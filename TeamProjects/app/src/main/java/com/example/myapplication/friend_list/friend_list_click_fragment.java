@@ -82,10 +82,8 @@ public class friend_list_click_fragment extends Fragment {
                                 String friendName = document.getString("name");
                                 String friendId = document.getString("id");
                                 String friendUid = document.getString("uid");
-                                double friendReliabilitydouble = document.getDouble("reliability");
-                                float friendReliability = (float)friendReliabilitydouble;
 
-                                User user = new User(friendName, friendId, friendReliability, friendUid);
+                                User user = new User(friendName, friendId, friendUid);
 
                                 Log.d("FriendList", "친구 정보 추가");
                                 dataList.add(user);

@@ -11,16 +11,16 @@ import com.example.myapplication.databinding.ItemFriendBinding;
 import java.util.List;
 public class Prom_make_added_friend extends RecyclerView.Adapter<Prom_make_added_friend.addedFriendViewHolder> {
 
-    private List<User> userList;
+    private List<String> userList;
 
-    public Prom_make_added_friend(List<User> userList) {
+    public Prom_make_added_friend(List<String> userList) {
         this.userList = userList;
     }
 
     @Override
     public addedFriendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ItemFriendBinding binding = ItemFriendBinding.inflate(LayoutInflater.from(
-                parent.getContext()),
+                        parent.getContext()),
                 parent,
                 false);
         return new addedFriendViewHolder(binding);
@@ -29,7 +29,7 @@ public class Prom_make_added_friend extends RecyclerView.Adapter<Prom_make_added
 
     @Override
     public void onBindViewHolder(addedFriendViewHolder holder, int position) {
-        User name = userList.get(position);
+        String name = userList.get(position);
         holder.bind(name);
     }
 
@@ -45,8 +45,9 @@ public class Prom_make_added_friend extends RecyclerView.Adapter<Prom_make_added
             super(binding.getRoot());
             this.binding = binding;
         }
-        private void bind(User text){
-            binding.userName.setText(text.name);
-            binding.userId.setText(text.id);}
+        private void bind(String text){
+            binding.userName.setText(text);
+//            binding.userId.setText(text.id);
+        }
     }
 }

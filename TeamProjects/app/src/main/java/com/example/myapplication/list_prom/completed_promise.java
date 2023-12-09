@@ -73,7 +73,7 @@ public class completed_promise extends Fragment {
                                 String promiseDocumentUid = document.getString("promiseDocument");
                                 String promiseName = document.getString("promiseName");
 
-                                checkCompleted(promiseDocumentUid, new activied_promise.CompletionCallback() {
+                                checkCompleted(promiseDocumentUid, new CompletionCallback() {
                                     @Override
                                     public void onComplete(boolean result) {
                                         if (result) {
@@ -100,8 +100,18 @@ public class completed_promise extends Fragment {
                 });
 
     }
+    public interface CompletionCallback {
+        void onComplete(boolean result);
+    }
 
-    private void checkCompleted(String promiseDocumentUid, activied_promise.CompletionCallback callback) {
+    private void checkCompleted(String promiseDocumentUid, CompletionCallback callback) {
+        // 현재 시간 가져오기
+        Date currentTime = Calendar.getInstance().getTime();
+
+        // 30분 이내의 유효한 시간 구하기
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, -30);
+        Date thirtyMinutesAgo = calendar.getTime();
         // Firestore에서 해당 문서 가져오기
         DocumentReference docRef = db.collection("promisesPractice").document(promiseDocumentUid);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -110,27 +120,42 @@ public class completed_promise extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        long promiseAcceptPeople = document.getLong("promiseAcceptPeople");
+                        // 첫 번째 메서드의 내용 - promiseDate 가져오기 및 시간 유효성 확인
+                        Timestamp promiseTimestamp = document.getTimestamp("promiseDate");
 
-                        // 해당 문서의 friends 서브컬렉션의 문서 수 가져오기
-                        db.collection("promisesPractice")
-                                .document(promiseDocumentUid)
-                                .collection("friends")
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            int friendsCount = task.getResult().size(); // friends 서브컬렉션의 문서 수
+                        if (promiseTimestamp != null) {
+                            Date promiseDate = promiseTimestamp.toDate();
 
-                                            // promiseAcceptPeople 값과 friendsCount 값 비교하여 조건 확인
-                                            callback.onComplete(promiseAcceptPeople == friendsCount);
-                                        } else {
-                                            // friends 서브컬렉션의 문서 가져오기 실패 시 처리
-                                            callback.onComplete(false);
-                                        }
-                                    }
-                                });
+                            long timeDifference = promiseDate.getTime() - currentTime.getTime();
+                            boolean isComplete = Math.abs(timeDifference) >= 30 * 60 * 1000;
+
+                            if (isComplete) {
+                                // 액티브 조건이 충족되었을 때 두 번째 메서드의 내용 - promiseAcceptPeople와 friendsCount 확인
+                                long promiseAcceptPeople = document.getLong("promiseAcceptPeople");
+
+                                db.collection("promisesPractice")
+                                        .document(promiseDocumentUid)
+                                        .collection("friends")
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    int friendsCount = task.getResult().size();
+                                                    callback.onComplete(isComplete && (promiseAcceptPeople == friendsCount));
+                                                } else {
+                                                    callback.onComplete(false);
+                                                }
+                                            }
+                                        });
+                            } else {
+                                // 시간 유효하지 않을 때 false 반환
+                                callback.onComplete(false);
+                            }
+                        } else {
+                            // promiseDate가 없을 때 처리
+                            callback.onComplete(false);
+                        }
                     } else {
                         // 문서가 존재하지 않을 때 처리
                         callback.onComplete(false);
@@ -142,5 +167,4 @@ public class completed_promise extends Fragment {
             }
         });
     }
-
 }
