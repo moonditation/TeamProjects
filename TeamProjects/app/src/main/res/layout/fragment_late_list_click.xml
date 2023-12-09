@@ -66,6 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/border"
+                android:backgroundTint="#FEFEFE"
                 android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -83,11 +84,17 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/lavender"
+                        android:text="일시 : "
+
+                        android:textSize="10sp"
+                        android:gravity="right"
                         android:layout_weight="1"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
+                        android:id="@+id/promise_date_time"
                         android:textColor="@color/lavender"
                         android:text="일시: ~~년 ~~월 ~~일 ~~시 ~~분"/>
                 </LinearLayout>
@@ -103,11 +110,12 @@
                         android:text="참여인원: "
                         android:textColor="@color/lavender"/>
                     <TextView
+                        android:id="@+id/promise_people_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:textSize="18sp"
-                        android:text="2"
+                        android:text="n"
                         android:textColor="@color/lavender"/>
                     <TextView
                         android:layout_width="wrap_content"

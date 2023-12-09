@@ -124,7 +124,7 @@ public class sign_in extends AppCompatActivity {
     }
     private void saveUserDataToFirestore(String id, String name) {
         // 사용자 정보를 Firebase Firestore에 저장
-        User user = new User(name, id, 50, mAuth.getUid());
+        User user = new User(name, id, mAuth.getUid());
 
         db.collection("users").document(mAuth.getUid()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

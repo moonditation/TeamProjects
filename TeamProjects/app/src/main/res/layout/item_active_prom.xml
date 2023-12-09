@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="110dp"
     android:background="@drawable/image_button"
+    android:layout_margin="10dp"
+    android:elevation="20dp"
     android:orientation="vertical"
     android:id="@+id/active_item">
         <LinearLayout
@@ -22,20 +24,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:background="@android:color/transparent"
-                    android:textSize="15sp"
-                    android:text="~~ / ~~ / ~~"/>
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:background="@android:color/transparent"
-                    android:textSize="15sp"
-                    android:text="~명"/>
-            </LinearLayout>
+                android:orientation="vertical"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/active_edit_promise"
                 android:padding="1dp"
@@ -63,21 +52,6 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="right">
-                <androidx.appcompat.widget.AppCompatButton
-                    android:padding="1dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/image_button"
-                    android:drawableStart="@drawable/navi"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:textSize="11sp"
-                    android:text="길 찾기"
-                    android:textColor="@color/blue_6"
-                    />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/active_prom_chat_btn"

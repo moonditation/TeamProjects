@@ -132,13 +132,12 @@ public class friend_requested_fragment extends Fragment {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     String name = document.getString("name");
                                     String id = document.getString("id");
-                                    float reliability = document.getDouble("reliability").floatValue();
                                     String uid = document.getString("uid");
 
                                     // User 객체 생성
                                     if (!uid.equals(currentUserId)) {
                                         // User object creation
-                                        User user = new User(name, id, reliability, uid);
+                                        User user = new User(name, id, uid);
                                         userList.add(user);
                                     }
 
@@ -179,7 +178,7 @@ public class friend_requested_fragment extends Fragment {
         List<User> filteredList = new ArrayList<>();
 
         for (User item : userList) {
-            if (item.getId().toLowerCase().contains(text.toLowerCase())) {
+            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(item);
             }
         }

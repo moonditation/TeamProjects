@@ -133,7 +133,7 @@ public class Friend_received_adapter extends RecyclerView.Adapter<Friend_receive
 
                             Log.d("sender", senderName); // 문관록 잘 들어옴
 
-                            User userFriend = new User(senderName, senderId, senderReliability, senderUid);
+                            User userFriend = new User(senderName, senderId, senderUid);
 
                             db.collection("users")
                                     .document(currentUserUid)
@@ -165,7 +165,7 @@ public class Friend_received_adapter extends RecyclerView.Adapter<Friend_receive
                             double currentUserReliabilitydouble = userDoc.getDouble("reliability");
                             float currentUserReliability = (float)currentUserReliabilitydouble;
 
-                            User userFriend = new User(currentUserName, currentUserId, currentUserReliability, currentUserUid);
+                            User userFriend = new User(currentUserName, currentUserId, currentUserUid);
 
                             db.collection("users")
                                     .document(senderUId)

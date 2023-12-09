@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.frame_layout, fragment)
                 .commit();
 
-        binding.bottomNavigationView.getMenu().getItem(0).setChecked(false);
-        binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
 

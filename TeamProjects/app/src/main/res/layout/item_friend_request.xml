@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/friend_info"
+    android:background="@drawable/image_button"
+    android:layout_margin="10dp"
+    android:elevation="20dp"
     android:orientation="horizontal">
 
 

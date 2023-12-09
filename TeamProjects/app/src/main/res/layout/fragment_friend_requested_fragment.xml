@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
-                    android:hint="함꼐할 친구의 id를 입력하세요."/>
+                    android:hint="함꼐할 친구의 이름를 입력하세요."/>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

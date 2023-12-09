@@ -1,5 +1,6 @@
 package com.example.myapplication.adapter;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemActivePromBinding;
 import com.example.myapplication.databinding.ItemLateListBinding;
+import com.example.myapplication.databinding.ItemLateMemberBinding;
 import com.example.myapplication.late_memory.late_list_click;
 import com.example.myapplication.make_prom.received_promise_info;
 
@@ -27,9 +29,7 @@ public class Late_list_adapter extends RecyclerView.Adapter<Late_list_adapter.La
     @Override
     public Late_list_adapter.LateListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ItemLateListBinding binding = ItemLateListBinding.inflate(LayoutInflater.from(
-                        parent.getContext()),
-                parent,
-                false);
+                parent.getContext()), parent, false);
         return new Late_list_adapter.LateListViewHolder(binding);
     }
 
@@ -46,7 +46,7 @@ public class Late_list_adapter extends RecyclerView.Adapter<Late_list_adapter.La
 
     public class LateListViewHolder extends RecyclerView.ViewHolder {
         private ItemLateListBinding binding;
-
+        private ItemLateMemberBinding memberBinding;
         private LateListViewHolder(ItemLateListBinding binding){
             super(binding.getRoot());
             this.binding = binding;
@@ -55,16 +55,29 @@ public class Late_list_adapter extends RecyclerView.Adapter<Late_list_adapter.La
                 int position = getAdapterPosition();
                 //이 position으로 id 파악해서 자료 뽑을거임
                 Promise promise = promiseList.get(position);
+
+                String promiseDocumentUid = promise.getPromiseUid();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("promiseUid", promiseDocumentUid);
+
                 //처리해야하는 클릭이벤트.
                 FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
                 late_list_click late_list_click = new late_list_click();
+                late_list_click.setArguments(bundle); // 데이터 전달
+
                 fragmentManager.beginTransaction()
                         .add(R.id.frame_layout, late_list_click)
                         .addToBackStack(null)
                         .commit();
             });
         }
-        private void bind(Promise text){binding.lateProm.setText(text.getPromiseName());}
+        private void bind(Promise text){
+            binding.lateProm.setText(text.getPromiseName());
+//            memberBinding.booleanLate.setText("t");
+//            memberBinding.userLateTime.setText("시간");
+//            memberBinding.userLateMinute.setText("분");
+        }
     }
 }
 

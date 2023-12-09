@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.chat.ChatActivity;
 import com.example.myapplication.databinding.ItemCompletePromBinding;
-import com.example.myapplication.list_prom.active_promise_info;
 import com.example.myapplication.list_prom.complete_promise_info;
 
 import java.util.List;

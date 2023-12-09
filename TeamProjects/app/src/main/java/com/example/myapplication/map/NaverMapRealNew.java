@@ -9,10 +9,12 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 
@@ -74,8 +76,10 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
     private List<CircleOverlay> safeCircleList = new ArrayList<>();
 
 
-    private Button updateButton;
-    private Button promisePlace;
+    private AppCompatButton updateButton;
+    private AppCompatButton promisePlace;
+
+    private ImageButton cancelButton;
 
 
     private Handler locationUpdateHandler = new Handler();
@@ -89,6 +93,15 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_naver_map_real_new);
 
+        cancelButton = findViewById(R.id.cancel_button);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
+                finish();
+            }
+        });
 
 
         FragmentManager fm = getSupportFragmentManager();

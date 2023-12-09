@@ -59,15 +59,6 @@ public class active_and_time_in_promise_info extends Fragment {
             }
         });
 
-        //얘를 누르면, 약속이 종료된 상태로 넘어간다.
-        view.findViewById(R.id.finish_prom_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
-                requireActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
-
 
     }
 
