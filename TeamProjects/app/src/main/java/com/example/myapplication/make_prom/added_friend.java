@@ -19,10 +19,8 @@ import com.example.myapplication.adapter.Prom_completed_adapter;
 import com.example.myapplication.adapter.Prom_make_added_friend;
 import com.example.myapplication.adapter.Promise;
 import com.example.myapplication.adapter.User;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +38,6 @@ public class added_friend extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String documentUid = getArguments().getString("documentUid");
-
 
         // 리사이클러뷰 설정
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_added_friend);
@@ -49,36 +45,19 @@ public class added_friend extends Fragment {
         Log.d("woohyuk", "여기까진 ok22222");
 
         // 어댑터와 데이터 연결
-        List<String> dataList = new ArrayList<>();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference friendsCollectionRef = db.collection("promisesPractice")
-                .document(documentUid)
-                .collection("friends");
-
-        friendsCollectionRef.get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String friendUid = document.getString("friendUid");
-                            if (friendUid != null) {
-                                dataList.add(friendUid);
-                            }
-                        }
-                        // 어댑터와 데이터 연결
-                        Prom_make_added_friend adapter = new Prom_make_added_friend(dataList);
-                        recyclerView.setAdapter(adapter);
-                    } else {
-                        Log.e("Firestore", "Error getting documents: ", task.getException());
-                    }
-                });
+        List<String> dataList = generateData(); // 데이터 생성
+        Prom_make_added_friend adapter = new Prom_make_added_friend(dataList);
+        recyclerView.setAdapter(adapter);
     }
 
-    private void generateData() {
+    private List<String> generateData() {
+        List<String> dataList = new ArrayList<>();
         getParentFragmentManager().setFragmentResultListener("bundle", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 String documentUid= result.getString("documentUid");
                 Log.d("documentID", documentUid);
+
 
                 FirebaseFirestore.getInstance()
                         .collection("promisesPractice")
@@ -87,24 +66,25 @@ public class added_friend extends Fragment {
                         .get()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                List<String> dataList = new ArrayList<>(); // 데이터 리스트 생성
                                 for (DocumentSnapshot friendSnapshot : task.getResult()) {
-                                    String friendName = friendSnapshot.getString("friendUid");
-                                    if (friendName != null) {
-                                        dataList.add(friendName); // 데이터 추가
-                                    }
-                                }
+                                    String friendName = friendSnapshot.getString("friendName");
+//                                    if (friendName != null) {
+//                                        User user = new User(friendName); // User 객체 생성
+//                                        // 다른 필드들도 필요하다면 여기서 설정
+//
+//                                        dataList.add(user); // 리스트에 추가
+//                                    }
+                                    dataList.add(friendName); // 리스트에 추가
 
-                                // RecyclerView 어댑터 설정
-                                Prom_make_added_friend adapter = new Prom_make_added_friend(dataList);
-                                RecyclerView recyclerView = getView().findViewById(R.id.recycler_view_added_friend);
-                                recyclerView.setAdapter(adapter);
+                                }
+                                // 리스트에 데이터가 모두 추가되었음을 확인할 수 있습니다.
+
                             } else {
                                 // 데이터 가져오기 실패 처리
                             }
                         });
             }
         });
+        return dataList;
     }
-
 }
