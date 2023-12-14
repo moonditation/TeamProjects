@@ -53,7 +53,6 @@ public class activied_promise extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 리사이클러뷰 설정
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_active_prom);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -83,7 +82,6 @@ public class activied_promise extends Fragment {
                                         }
 
                                         int count = activePromisesCount.incrementAndGet();
-                                        // 모든 비동기 호출이 완료되면 어댑터 설정
                                         if (count == promisesCount) {
                                             Prom_activied_adapter adapter = new Prom_activied_adapter(dataList);
                                             recyclerView.setAdapter(adapter);
@@ -92,11 +90,9 @@ public class activied_promise extends Fragment {
                                 });
                             }
 
-                            // 어댑터와 데이터 연결
                             Prom_activied_adapter adapter = new Prom_activied_adapter(dataList);
                             recyclerView.setAdapter(adapter);
                         } else {
-                            // 에러 처리
                         }
                     }
                 });
@@ -107,15 +103,12 @@ public class activied_promise extends Fragment {
     }
 
     private void checkActived(String promiseDocumentUid, CompletionCallback callback) {
-        // 현재 시간 가져오기
         Date currentTime = Calendar.getInstance().getTime();
 
-        // 30분 이내의 유효한 시간 구하기
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, -30);
         Date thirtyMinutesAgo = calendar.getTime();
 
-        // Firestore에서 해당 문서 가져오기
         DocumentReference docRef = db.collection("promisesPractice").document(promiseDocumentUid);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -123,7 +116,6 @@ public class activied_promise extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        // 첫 번째 메서드의 내용 - promiseDate 가져오기 및 시간 유효성 확인
                         Timestamp promiseTimestamp = document.getTimestamp("promiseDate");
 
                         if (promiseTimestamp != null) {
@@ -131,9 +123,11 @@ public class activied_promise extends Fragment {
 
                             long timeDifference = promiseDate.getTime() - currentTime.getTime();
                             boolean isActive = Math.abs(timeDifference) <= 30 * 60 * 1000;
+                            Date currentTime = Calendar.getInstance().getTime();
+                            long timeDifference2 = promiseDate.getTime() - currentTime.getTime();
+                            boolean isPastPromiseTime = timeDifference2 > 0;
 
-                            if (isActive) {
-                                // 액티브 조건이 충족되었을 때 두 번째 메서드의 내용 - promiseAcceptPeople와 friendsCount 확인
+                            if (isActive&&isPastPromiseTime) {
                                 long promiseAcceptPeople = document.getLong("promiseAcceptPeople");
 
                                 db.collection("promisesPractice")
@@ -152,19 +146,15 @@ public class activied_promise extends Fragment {
                                             }
                                         });
                             } else {
-                                // 시간 유효하지 않을 때 false 반환
                                 callback.onComplete(false);
                             }
                         } else {
-                            // promiseDate가 없을 때 처리
                             callback.onComplete(false);
                         }
                     } else {
-                        // 문서가 존재하지 않을 때 처리
                         callback.onComplete(false);
                     }
                 } else {
-                    // 문서 가져오기 실패 시 처리
                     callback.onComplete(false);
                 }
             }

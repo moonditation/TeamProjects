@@ -18,7 +18,6 @@ public class Promise {
         this.promiseName = promiseName;
     }
 
-    // 생성자
     public Promise(Date promiseDate, double promiseLatitude, double promiseLongitude, String promiseName, String promiseUid) {
         this.promiseDate = promiseDate;
         this.promiseLatitude = promiseLatitude;
@@ -27,7 +26,6 @@ public class Promise {
         this.promiseUid = promiseUid;
     }
 
-    // Getter 및 Setter 메서드
     public Date getPromiseDate() {
         return promiseDate;
     }

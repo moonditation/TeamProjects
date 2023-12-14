@@ -61,7 +61,7 @@ public class NaverMapShowPromisePlace extends AppCompatActivity implements OnMap
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (locationSource.onRequestPermissionsResult(
                 requestCode, permissions, grantResults)) {
-            if (!locationSource.isActivated()) { // 권한 거부됨
+            if (!locationSource.isActivated()) {
                 naverMap.setLocationTrackingMode(LocationTrackingMode.None);
             }
             return;
@@ -80,7 +80,6 @@ public class NaverMapShowPromisePlace extends AppCompatActivity implements OnMap
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
-        // 사용자에게 위치 권한 요청
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this,
@@ -90,18 +89,15 @@ public class NaverMapShowPromisePlace extends AppCompatActivity implements OnMap
             return;
         }
 
-        // 위치 권한이 허용되어 있으면 현재 위치 표시
         naverMap.getUiSettings().setLocationButtonEnabled(true);
 
         double latitude = getIntent().getDoubleExtra("latitude",0);
         double longitude = getIntent().getDoubleExtra("longitude", 0);
 
-        // 카메라를 지정된 위치로 이동
         LatLng searchLocation = new LatLng(latitude,longitude );
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(searchLocation).animate(CameraAnimation.Linear);
         naverMap.moveCamera(cameraUpdate);
 
-        // 마커 생성
         Marker marker = new Marker();
         marker.setPosition(searchLocation);
         marker.setMap(naverMap);

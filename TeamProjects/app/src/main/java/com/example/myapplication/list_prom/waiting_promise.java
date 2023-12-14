@@ -19,6 +19,7 @@ import com.example.myapplication.adapter.Prom_waiting_adapter;
 import com.example.myapplication.adapter.Promise;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -28,6 +29,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -50,7 +53,6 @@ public class waiting_promise extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 리사이클러뷰 설정
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_wait_prom);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -80,7 +82,6 @@ public class waiting_promise extends Fragment {
                                         }
 
                                         int count = activePromisesCount.incrementAndGet();
-                                        // 모든 비동기 호출이 완료되면 어댑터 설정
                                         if (count == promisesCount) {
                                             Prom_waiting_adapter adapter = new Prom_waiting_adapter(dataList);
                                             recyclerView.setAdapter(adapter);
@@ -89,11 +90,9 @@ public class waiting_promise extends Fragment {
                                 });
                             }
 
-                            // 어댑터와 데이터 연결
                             Prom_waiting_adapter adapter = new Prom_waiting_adapter(dataList);
                             recyclerView.setAdapter(adapter);
                         } else {
-                            // 에러 처리
                         }
                     }
                 });
@@ -102,7 +101,6 @@ public class waiting_promise extends Fragment {
     }
 
     private void checkWaiting(String promiseDocumentUid, activied_promise.CompletionCallback callback) {
-        // Firestore에서 해당 문서 가져오기
         DocumentReference docRef = db.collection("promisesPractice").document(promiseDocumentUid);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -112,7 +110,6 @@ public class waiting_promise extends Fragment {
                     if (document.exists()) {
                         long promiseAcceptPeople = document.getLong("promiseAcceptPeople");
 
-                        // 해당 문서의 friends 서브컬렉션의 문서 수 가져오기
                         db.collection("promisesPractice")
                                 .document(promiseDocumentUid)
                                 .collection("friends")
@@ -121,22 +118,30 @@ public class waiting_promise extends Fragment {
                                     @Override
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                         if (task.isSuccessful()) {
-                                            int friendsCount = task.getResult().size(); // friends 서브컬렉션의 문서 수
+                                            int friendsCount = task.getResult().size();
 
-                                            // promiseAcceptPeople 값과 friendsCount 값 비교하여 조건 확인
-                                            callback.onComplete(promiseAcceptPeople != friendsCount);
-                                        } else {
-                                            // friends 서브컬렉션의 문서 가져오기 실패 시 처리
+
+
+                                            Timestamp promiseTimestamp = document.getTimestamp("promiseDate");
+
+                                            Date currentTime = Calendar.getInstance().getTime();
+                                            Date promiseDate = promiseTimestamp.toDate();
+                                            long timeDifference = promiseDate.getTime() - currentTime.getTime();
+                                            boolean isPastPromiseTime = timeDifference > 0;
+
+                                            if (promiseAcceptPeople != friendsCount&&isPastPromiseTime) {
+                                                callback.onComplete(true);
+                                            } else {
+                                                callback.onComplete(false);
+                                            }                                        } else {
                                             callback.onComplete(false);
                                         }
                                     }
                                 });
                     } else {
-                        // 문서가 존재하지 않을 때 처리
                         callback.onComplete(false);
                     }
                 } else {
-                    // 문서 가져오기 실패 시 처리
                     callback.onComplete(false);
                 }
             }

@@ -64,19 +64,20 @@ public class PromMakeFragment extends Fragment {
             }
         });
 
-        AppCompatButton received_promise = view.findViewById(R.id.received_promise);
-        received_promise.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                click_received_promise click_received_promise = new click_received_promise();
-                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-
-                fragmentTransaction.add(R.id.frame_layout, click_received_promise);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-
-            }
-        });
+        // 이거와 연결되는 프래그먼트도 없애줘야 함.
+//        AppCompatButton received_promise = view.findViewById(R.id.received_promise);
+//        received_promise.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                click_received_promise click_received_promise = new click_received_promise();
+//                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+//
+//                fragmentTransaction.add(R.id.frame_layout, click_received_promise);
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
+//
+//            }
+//        });
 
     }
 }

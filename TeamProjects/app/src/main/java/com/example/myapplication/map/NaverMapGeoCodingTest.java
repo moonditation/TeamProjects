@@ -55,7 +55,6 @@ public class NaverMapGeoCodingTest extends AppCompatActivity implements OnMapRea
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
                 finish();
             }
         });
@@ -120,7 +119,7 @@ public class NaverMapGeoCodingTest extends AppCompatActivity implements OnMapRea
                                            @NonNull String[] permissions,  @NonNull int[] grantResults) {
         if (locationSource.onRequestPermissionsResult(
                 requestCode, permissions, grantResults)) {
-            if (!locationSource.isActivated()) { // 권한 거부됨
+            if (!locationSource.isActivated()) {
                 naverMap.setLocationTrackingMode(LocationTrackingMode.None);
             }
             return;
@@ -171,7 +170,6 @@ public class NaverMapGeoCodingTest extends AppCompatActivity implements OnMapRea
                 String y = stringBuilder.substring(indexFirst + 5, indexLast);
 
 
-                // 위도, 경도 값을 가져온 후 double로 변환
                 double latitude = Double.parseDouble(y);
                 double longitude = Double.parseDouble(x);
 
@@ -194,7 +192,6 @@ public class NaverMapGeoCodingTest extends AppCompatActivity implements OnMapRea
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
-        // 사용자에게 위치 권한 요청
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this,
@@ -204,7 +201,6 @@ public class NaverMapGeoCodingTest extends AppCompatActivity implements OnMapRea
             return;
         }
 
-        // 위치 권한이 허용되어 있으면 현재 위치 표시
         naverMap.getUiSettings().setLocationButtonEnabled(true);
     }
 }

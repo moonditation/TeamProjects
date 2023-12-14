@@ -50,7 +50,6 @@ public class Prom_activied_adapter extends RecyclerView.Adapter<Prom_activied_ad
             public void onClick(View v) {
                 int position = holder.getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    // 현재 위치(position)를 사용할 수 있음
                     Intent intent = new Intent(v.getContext(), ChatActivity.class);
 
                     String chatRoomName = promiseList.get(position).getPromiseName();
@@ -67,7 +66,6 @@ public class Prom_activied_adapter extends RecyclerView.Adapter<Prom_activied_ad
             public void onClick(View v) {
                 int position = holder.getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    // 현재 위치(position)를 사용할 수 있음
                     Intent intent = new Intent(v.getContext(), NaverMapRealNew.class);
 
                     String promiseUid = promiseList.get(position).getPromiseUid();
@@ -94,7 +92,6 @@ public class Prom_activied_adapter extends RecyclerView.Adapter<Prom_activied_ad
             this.binding = binding;
 
             binding.activeEditPromise.setOnClickListener(view -> {
-                // 얘는 분기점을 통해서, active_and_time_in_promise_info 자료 중 하나가 떠오를 것.
                 int position = getAdapterPosition();
                 //이 position으로 id 파악해서 자료 뽑을거임
                 String promiseUid = promiseList.get(position).getPromiseUid();

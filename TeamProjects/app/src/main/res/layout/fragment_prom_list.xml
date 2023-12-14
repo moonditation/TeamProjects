@@ -67,7 +67,7 @@
                 android:paddingEnd="8dp"
                 android:paddingBottom="4dp"
                 android:text="활성화된 약속"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 android:textColor="@color/lavender"/>
 
 
@@ -86,7 +86,7 @@
                 android:paddingEnd="8dp"
                 android:paddingBottom="4dp"
                 android:text="확정된 약속"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 android:textColor="@color/lavender"/>
 
 
@@ -105,7 +105,7 @@
                 android:paddingEnd="8dp"
                 android:paddingBottom="4dp"
                 android:text="대기중인 약속"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 android:textColor="@color/lavender"/>
         </LinearLayout>
 

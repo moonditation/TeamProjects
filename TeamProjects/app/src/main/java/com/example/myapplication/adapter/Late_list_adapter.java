@@ -53,7 +53,6 @@ public class Late_list_adapter extends RecyclerView.Adapter<Late_list_adapter.La
 
             binding.lateProm.setOnClickListener(view -> {
                 int position = getAdapterPosition();
-                //이 position으로 id 파악해서 자료 뽑을거임
                 Promise promise = promiseList.get(position);
 
                 String promiseDocumentUid = promise.getPromiseUid();
@@ -61,7 +60,6 @@ public class Late_list_adapter extends RecyclerView.Adapter<Late_list_adapter.La
                 Bundle bundle = new Bundle();
                 bundle.putString("promiseUid", promiseDocumentUid);
 
-                //처리해야하는 클릭이벤트.
                 FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
                 late_list_click late_list_click = new late_list_click();
                 late_list_click.setArguments(bundle); // 데이터 전달

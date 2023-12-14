@@ -1,5 +1,6 @@
 package com.example.myapplication.list_prom;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,29 +22,33 @@ import com.example.myapplication.adapter.Friend_list_adapter;
 import com.example.myapplication.adapter.User;
 import com.example.myapplication.databinding.ItemActivePromBinding;
 import com.example.myapplication.make_prom.added_friend;
+import com.example.myapplication.make_prom.added_friend2;
+import com.example.myapplication.make_prom.added_friend3;
+import com.example.myapplication.map.NaverMapShowPromisePlace;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class complete_promise_info extends Fragment {
+    String documentUid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_complete_promise_info, container, false);
-        getParentFragmentManager().setFragmentResultListener("promiseUidBundle", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                String documentUid;
-
-                documentUid = result.getString("promiseUid");
-                Log.d("promiceacceptInfo", documentUid);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            documentUid = bundle.getString("promiseUid");
+            if (documentUid != null && !documentUid.isEmpty()) {
                 getPromiseNameFromFirestore(documentUid);
-
             }
-        });
+        }
         return view;
     }
 
@@ -51,26 +56,52 @@ public class complete_promise_info extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        added_friend added_friend = new added_friend();
+        Bundle bundle = new Bundle();
+        bundle.putString("documentUid", documentUid);
+        Log.d("completeBundle", bundle + "    "+documentUid);
+
+
+        added_friend3 addedFriend3 = new added_friend3();
+        addedFriend3.setArguments(bundle);
         FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.added_friend_list, added_friend);
-        fragmentTransaction.commit();
+        fragmentTransaction.replace(R.id.add_friend_complete, addedFriend3).commit();
+
+
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
 
-        //얘를 클릭하면, 약속정보가 수정됨과 동시에, 파티원들에게 noti 가 날아가야함.
-        view.findViewById(R.id.edit_promise).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.promise_location).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
-                requireActivity().getSupportFragmentManager().popBackStack();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                DocumentReference docRef = db.collection("promisesPractice").document(documentUid);
+
+                docRef.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Double promiseLatitude = document.getDouble("promiseLatitude");
+                            Double promiseLongitude = document.getDouble("promiseLongitude");
+
+                            Intent intent = new Intent(getActivity(), NaverMapShowPromisePlace.class);
+                            intent.putExtra("latitude", promiseLatitude);
+                            intent.putExtra("longitude", promiseLongitude);
+                            startActivity(intent);
+                        } else {
+                            Log.d("Firestore", "Document does not exist");
+                        }
+                    } else {
+                        Log.e("Firestore", "Error getting document", task.getException());
+                    }
+                });
             }
         });
+
+
 
 
     }
@@ -83,15 +114,24 @@ public class complete_promise_info extends Fragment {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
                     String promiseName = document.getString("promiseName");
+                    Timestamp promiseTimestamp = document.getTimestamp("promiseDate");
 
-                    // 가져온 promiseName 값을 TextView에 설정
                     if (promiseName != null) {
                         TextView textView = getView().findViewById(R.id.promise_name);
                         textView.setText(promiseName);
                     }
+
+                    if (promiseTimestamp != null) {
+                        Date promiseDate = promiseTimestamp.toDate();
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                        String formattedDate = formatter.format(promiseDate);
+
+                        TextView promiseDayTextView = getView().findViewById(R.id.promise_day);
+                        promiseDayTextView.setText(formattedDate);
+                    }
+
                 }
             } else {
-                // 가져오기 실패 처리
             }
         });
 

@@ -57,14 +57,12 @@ public class log_in extends AppCompatActivity {
     }
 
     private void initFirebaseAuth() {
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             finish();
@@ -86,16 +84,13 @@ public class log_in extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // 로그인 성공
                             Toast.makeText(log_in.this, "로그인 성공", Toast.LENGTH_SHORT).show();
 
                             finish();
-                            // 사용자 정보를 메인 엑티비티로 전달
                             sendUserDataToMainActivity(mAuth.getCurrentUser());
 
 
                         } else {
-                            // 로그인 실패
                             Toast.makeText(log_in.this, "로그인 실패: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }

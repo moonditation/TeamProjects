@@ -43,21 +43,17 @@ public class friend_received_fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        // 프래그먼트 2의 종료 이벤트 처리
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
 
-        // 리사이클러뷰 설정
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_received_friend);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // 어댑터와 데이터 연결
-        List<User> dataList = generateData(); // 데이터 생성
+        List<User> dataList = generateData();
 
         adapter = new Friend_received_adapter(dataList);
 
@@ -76,7 +72,6 @@ public class friend_received_fragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            // 각 문서에서 senderUid 필드 값을 가져오기
                             String senderUid = document.getString("senderUid");
                             String receiverUid = document.getString("receiverUid");
                             String pending =  document.getString("status");
@@ -88,7 +83,6 @@ public class friend_received_fragment extends Fragment {
                                         if (task2.isSuccessful()) {
                                             DocumentSnapshot document2 = task2.getResult();
                                             if (document2.exists()) {
-                                                // 가져온 정보를 User 객체에 매핑
                                                 if (Objects.equals(receiverUid, mAuth.getUid())) {
 
 
@@ -109,11 +103,9 @@ public class friend_received_fragment extends Fragment {
                                             }
 
                                             } else {
-                                                // 문서가 존재하지 않을 경우 처리
                                                 Log.d("LJM", "문서가 존재하지 않음");
                                             }
                                         } else {
-                                            // 작업 실패 시 처리
                                             Log.d("LJM", "작업 실패");
                                         }
                                     });

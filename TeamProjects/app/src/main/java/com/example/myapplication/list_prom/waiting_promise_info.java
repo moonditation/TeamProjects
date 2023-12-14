@@ -20,8 +20,9 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.Friend_list_adapter;
 import com.example.myapplication.adapter.User;
-import com.example.myapplication.databinding.ItemActivePromBinding;
+//import com.example.myapplication.databinding.ItemActivePromBinding;
 import com.example.myapplication.make_prom.added_friend;
+import com.example.myapplication.make_prom.added_friend2;
 import com.example.myapplication.map.NaverMapShowPromisePlace;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
@@ -56,15 +57,14 @@ public class waiting_promise_info extends Fragment {
 
         Bundle bundle = new Bundle();
         bundle.putString("documentUid", documentUid);
-        added_friend added_friend = new added_friend();
-        added_friend.setArguments(bundle);
+        added_friend2 added_friend2 = new added_friend2();
+        added_friend2.setArguments(bundle);
         FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.added_friend_list, added_friend);
+        fragmentTransaction.add(R.id.added_friend_list, added_friend2);
         fragmentTransaction.commit();
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -82,7 +82,6 @@ public class waiting_promise_info extends Fragment {
                             Double promiseLatitude = document.getDouble("promiseLatitude");
                             Double promiseLongitude = document.getDouble("promiseLongitude");
 
-                            // promiseLatitude와 promiseLongitude를 다음 액티비티로 전달하는 Intent 생성
                             Intent intent = new Intent(getActivity(), NaverMapShowPromisePlace.class);
                             intent.putExtra("latitude", promiseLatitude);
                             intent.putExtra("longitude", promiseLongitude);
@@ -115,7 +114,6 @@ public class waiting_promise_info extends Fragment {
                     Timestamp promiseTimestamp = document.getTimestamp("promiseDate");
 
 
-                    // 가져온 promiseName 값을 TextView에 설정
                     if (promiseName != null) {
                         TextView textView = getView().findViewById(R.id.promise_name);
                         textView.setText(promiseName);
@@ -131,16 +129,16 @@ public class waiting_promise_info extends Fragment {
                     }
 
 
+                    } else {
+                        Log.d("Firestore", "Document does not exist");
+                    }
                 } else {
-                    Log.d("Firestore", "Document does not exist"); // 문서가 존재하지 않는 경우 로그 출력
+                    Log.e("Firestore", "Error getting document", task.getException());
                 }
-            } else {
-                Log.e("Firestore", "Error getting document", task.getException()); // 문서 가져오기 실패 시 에러 로그 출력
-            }
-        });
+            });
+        }
+
+
+
+
     }
-
-
-
-
-}

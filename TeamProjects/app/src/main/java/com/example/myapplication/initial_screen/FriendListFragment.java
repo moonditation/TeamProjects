@@ -66,7 +66,6 @@ public class FriendListFragment extends Fragment {
         });
 
 
-        // 받은 요청 목록 버튼
         AppCompatButton received_list_button = view.findViewById(R.id.received_list);
         received_list_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +80,6 @@ public class FriendListFragment extends Fragment {
             }
         });
 
-        // 받은 요청 목록 버튼
         AppCompatButton request_list_button = view.findViewById(R.id.request_list);
         request_list_button.setOnClickListener(new View.OnClickListener() {
             @Override

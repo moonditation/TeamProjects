@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // 프래그먼트 생성 및 데이터 전달
         FirstFragment fragment = new FirstFragment();
 
         getSupportFragmentManager().beginTransaction()

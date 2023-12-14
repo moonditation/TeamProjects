@@ -46,22 +46,18 @@ public class friend_list_click_fragment extends Fragment {
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        // 리사이클러뷰 설정
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_friend_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // 어댑터와 데이터 연결
-        List<User> dataList = generateData(); // 데이터 생성
+        List<User> dataList = generateData();
         adapter = new Friend_list_adapter(dataList);
         recyclerView.setAdapter(adapter);
     }
 
 
-    // 수정
     private List<User> generateData() {
         List<User> dataList = new ArrayList<>();
         getFriendInfo(dataList);

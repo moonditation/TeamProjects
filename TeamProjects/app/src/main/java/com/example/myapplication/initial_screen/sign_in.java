@@ -67,13 +67,11 @@ public class sign_in extends AppCompatActivity {
     private void signIn(String name, String id, String password, String pass_check) {
 
 
-        // 입력 유효성 검사
         if (TextUtils.isEmpty(id) || TextUtils.isEmpty(name) || TextUtils.isEmpty(password) || TextUtils.isEmpty(pass_check)) {
             Toast.makeText(sign_in.this, "모든 항목을 입력하세요.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 비밀번호 일치 여부 체크
         if (!password.equals(pass_check)) {
             Toast.makeText(sign_in.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
             return;
@@ -90,14 +88,11 @@ public class sign_in extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        // 중복된 ID가 이미 존재함
                         Toast.makeText(sign_in.this, "이미 사용 중인 ID입니다.", Toast.LENGTH_SHORT).show();
                     } else {
-                        // 중복된 ID가 없음, 회원가입 진행
                         signUpWithFirebase(id, name, password);
                     }
                 } else {
-                    // Firebase 데이터베이스 조회 실패
                     Toast.makeText(sign_in.this, "중복 확인 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -109,36 +104,27 @@ public class sign_in extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // 회원가입 성공
                             Toast.makeText(sign_in.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
 
-                            // 여기에서 추가로 필요한 사용자 정보를 Firebase 데이터베이스에 저장할 수 있음
-                            // 예를 들어, 이름(name)을 users 컬렉션에 저장할 수 있습니다.
                             saveUserDataToFirestore(id, name);
                         } else {
-                            // 회원가입 실패
                             Toast.makeText(sign_in.this, "회원가입 실패: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
     private void saveUserDataToFirestore(String id, String name) {
-        // 사용자 정보를 Firebase Firestore에 저장
         User user = new User(name, id, mAuth.getUid());
 
         db.collection("users").document(mAuth.getUid()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    // 사용자 정보를 메인 엑티비티로 전달
                     sendUserDataToMainActivity(mAuth.getCurrentUser());
 
                     finish();
-                    // 성공적으로 사용자 추가
-                    // 사용자의 친구 정보를 추가하는 코드 호출
 //                    addFriendsToFirestore(id, null);
                 } else {
-                    // 사용자 추가 실패
                 }
             }
         });;
@@ -151,9 +137,7 @@ public class sign_in extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // 친구 정보를 Firestore에 추가하는 메서드
     private void addFriendsToFirestore(String userId, List<User> friends) {
-        // "users/{userId}/friends" 컬렉션에 친구 정보를 저장합니다.
         CollectionReference friendsRef = db.collection("users").document().collection("friends");
 
         for (User friend : friends) {
@@ -163,9 +147,7 @@ public class sign_in extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                // 성공적으로 친구 추가
                             } else {
-                                // 친구 추가 실패
                             }
                         }
                     });

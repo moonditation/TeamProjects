@@ -65,21 +65,21 @@
             android:textColor="@color/lavender"/>
 
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:background="@drawable/image_button"
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/received_prom"
-            android:id="@+id/received_promise"
-            android:drawablePadding="15dp"
-            android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="4dp"
-            android:text="내게 온 요청"
-            android:textColor="@color/lavender"/>
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:background="@drawable/image_button"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:drawableLeft="@drawable/received_prom"-->
+<!--            android:id="@+id/received_promise"-->
+<!--            android:drawablePadding="15dp"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:paddingStart="8dp"-->
+<!--            android:paddingTop="4dp"-->
+<!--            android:paddingEnd="8dp"-->
+<!--            android:paddingBottom="4dp"-->
+<!--            android:text="내게 온 요청"-->
+<!--            android:textColor="@color/lavender"/>-->
 
 
     </LinearLayout>

@@ -5,19 +5,15 @@ public class FriendRequest {
     private String receiverUid;
     private String status;
 
-    // 기본 생성자 (필수)
     public FriendRequest() {
-        // Firestore에서 객체를 읽어올 때 필요
     }
 
-    // 매개변수를 받는 생성자
     public FriendRequest(String senderUid, String receiverUid, String status) {
         this.senderUid = senderUid;
         this.receiverUid = receiverUid;
         this.status = status;
     }
 
-    // Getter 및 Setter 메서드 (필요한 경우)
     public String getSenderUid() {
         return senderUid;
     }

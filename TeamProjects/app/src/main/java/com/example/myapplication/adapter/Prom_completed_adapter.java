@@ -82,9 +82,9 @@ public class Prom_completed_adapter extends RecyclerView.Adapter<Prom_completed_
                 bundle.putString("promiseUid", promiseUid);//종료할 수 있는 약속
                 FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
 
-                fragmentManager.setFragmentResult("promiseUidBundle", bundle);
                 //처리해야하는 클릭이벤트.
                 complete_promise_info complete_promise_info = new complete_promise_info();
+                complete_promise_info.setArguments(bundle);
                 fragmentManager.beginTransaction()
                         .add(R.id.frame_layout, complete_promise_info)
                         .addToBackStack(null)

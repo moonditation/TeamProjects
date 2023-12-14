@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemActivePromBinding;
-import com.example.myapplication.databinding.ItemPromiseRequestBinding;
 import com.example.myapplication.databinding.ItemWaitingPromBinding;
 import com.example.myapplication.list_prom.complete_promise_info;
 import com.example.myapplication.list_prom.waiting_promise_info;
@@ -78,7 +77,6 @@ public class Prom_waiting_adapter extends RecyclerView.Adapter<Prom_waiting_adap
                             }
                         }
                     } else {
-                        // 문서 가져오기 실패 처리
                         Log.e("Firestore", "Error getting friend documents", task.getException());
                     }
                 });
@@ -88,10 +86,6 @@ public class Prom_waiting_adapter extends RecyclerView.Adapter<Prom_waiting_adap
     public int getItemCount() {
         return promiseList.size();
     }
-
-
-
-
 
     public class PromiseViewHolder extends RecyclerView.ViewHolder {
         private ItemWaitingPromBinding binding;
@@ -115,11 +109,9 @@ public class Prom_waiting_adapter extends RecyclerView.Adapter<Prom_waiting_adap
                             for (QueryDocumentSnapshot friendDocument : task2.getResult()) {
                                 friendsCollectionRef.document(friendDocument.getId()).update("friendAccept", true)
                                         .addOnSuccessListener(aVoid -> {
-                                            // friendAccept를 true로 업데이트한 경우
                                             Log.d("Firestore", "Friend accept updated successfully");
                                         })
                                         .addOnFailureListener(e -> {
-                                            // 업데이트 실패 시 처리
                                             Log.e("Firestore", "Error updating friend accept", e);
                                         });
                             }
@@ -139,15 +131,12 @@ public class Prom_waiting_adapter extends RecyclerView.Adapter<Prom_waiting_adap
 
                                 docRef.update("promiseAcceptPeople", updatedAcceptCount)
                                         .addOnSuccessListener(aVoid -> {
-                                            // 업데이트가 성공한 경우
                                             Log.d("Firestore", "Document updated successfully");
 
-                                            // 버튼을 비활성화하려면 해당 버튼 객체를 사용해서 setEnabled(false)를 호출하세요.
                                             binding.acceptWaitingButton.setEnabled(false);
                                             binding.acceptWaitingButton.setText("수락완료");
                                         })
                                         .addOnFailureListener(e -> {
-                                            // 업데이트가 실패한 경우
                                             Log.e("Firestore", "Error updating document", e);
                                         });
                             } else {
@@ -170,12 +159,10 @@ public class Prom_waiting_adapter extends RecyclerView.Adapter<Prom_waiting_adap
                 String promiseUid = promiseList.get(position).getPromiseUid();
                 Log.d("promiceaccept", promiseUid);
                 Bundle bundle = new Bundle();
-                bundle.putString("promiseUid", promiseUid);//종료할 수 있는 약속
+                bundle.putString("promiseUid", promiseUid);
                 FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
 
-                // 대기 중인 프라그먼트에 번들 전달
 
-                //처리해야하는 클릭이벤트.
                 waiting_promise_info waiting_promise_info = new waiting_promise_info();
                 waiting_promise_info.setArguments(bundle);
 
@@ -188,48 +175,4 @@ public class Prom_waiting_adapter extends RecyclerView.Adapter<Prom_waiting_adap
         }
         private void bind(Promise text){binding.promiseName.setText(text.getPromiseName());}
     }
-
-    public class PromiseFalseViewHolder extends RecyclerView.ViewHolder {
-        private ItemPromiseRequestBinding binding;
-
-        private PromiseFalseViewHolder(ItemPromiseRequestBinding binding){
-            super(binding.getRoot());
-            this.binding = binding;
-
-            binding.requestPromise.setOnClickListener(view -> {
-                int position = getAdapterPosition();
-                //이 position으로 id 파악해서 자료 뽑을거임
-                String promiseUid = promiseList.get(position).getPromiseUid();
-                Log.d("promiceaccept", promiseUid);
-                Bundle bundle = new Bundle();
-                bundle.putString("promiseUid", promiseUid);//종료할 수 있는 약속
-                FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
-
-                fragmentManager.setFragmentResult("promiseUidBundle", bundle);
-                //처리해야하는 클릭이벤트.
-                waiting_promise_info waiting_promise_info = new waiting_promise_info();
-                fragmentManager.beginTransaction()
-                        .add(R.id.frame_layout, waiting_promise_info)
-                        .addToBackStack(null)
-                        .commit();
-            });
-
-            binding.requestAccept.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-
-            binding.requestDeny.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-
-        }
-        private void bind(Promise text){binding.promiseName.setText(text.getPromiseName());}
-    }
-
 }

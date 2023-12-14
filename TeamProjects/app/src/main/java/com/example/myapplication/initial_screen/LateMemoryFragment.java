@@ -120,7 +120,6 @@ public class LateMemoryFragment extends Fragment {
 
 
     private void checkLate(String promiseDocumentUid, activied_promise.CompletionCallback callback) {
-        // Firestore에서 해당 문서 가져오기
         DocumentReference docRef = db.collection("promisesPractice").document(promiseDocumentUid);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -130,51 +129,50 @@ public class LateMemoryFragment extends Fragment {
                     if (document.exists()) {
                         Timestamp promiseTimestamp = document.getTimestamp("promiseDate");
 
-                        // 현재 시간과 약속시간 비교하여 30분이 지났는지 확인
                         if (promiseTimestamp != null) {
                             long currentTime = System.currentTimeMillis();
                             long promiseTime = promiseTimestamp.toDate().getTime();
                             long differenceInMinutes = (currentTime - promiseTime) / (1000 * 60);
+                            long differenceInDays = (currentTime - promiseTime) / (1000 * 60 * 60 * 24);
 
-                            // 30분 이상 지났고, friends 컬렉션의 문서 수와 promiseAcceptPeople 값이 같은지 확인
-                            if (differenceInMinutes >= 30) {
-                                long promiseAcceptPeople = document.getLong("promiseAcceptPeople");
+                            if (differenceInDays <= 30) {
+                                if (differenceInMinutes >= 30) {
+                                    long promiseAcceptPeople = document.getLong("promiseAcceptPeople");
 
-                                // 해당 문서의 friends 서브컬렉션의 문서 수 가져오기
-                                db.collection("promisesPractice")
-                                        .document(promiseDocumentUid)
-                                        .collection("friends")
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    int friendsCount = task.getResult().size(); // friends 서브컬렉션의 문서 수
+                                    db.collection("promisesPractice")
+                                            .document(promiseDocumentUid)
+                                            .collection("friends")
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        int friendsCount = task.getResult().size();
 
-                                                    // promiseAcceptPeople 값과 friendsCount 값 비교하여 조건 확인
-                                                    if (promiseAcceptPeople == friendsCount) {
-                                                        callback.onComplete(true);
+                                                        if (promiseAcceptPeople == friendsCount) {
+                                                            callback.onComplete(true);
+                                                        } else {
+                                                            callback.onComplete(false);
+                                                        }
                                                     } else {
                                                         callback.onComplete(false);
                                                     }
-                                                } else {
-                                                    // friends 서브컬렉션의 문서 가져오기 실패 시 처리
-                                                    callback.onComplete(false);
                                                 }
-                                            }
-                                        });
-                            } else {
-                                callback.onComplete(false); // 약속시간이 30분 미만인 경우
+                                            });
+                                }else {
+                                    callback.onComplete(false);
+                                }
+                            }
+                           else {
+                                callback.onComplete(false);
                             }
                         } else {
-                            callback.onComplete(false); // 약속시간 정보가 없는 경우
+                            callback.onComplete(false);
                         }
                     } else {
-                        // 문서가 존재하지 않을 때 처리
                         callback.onComplete(false);
                     }
                 } else {
-                    // 문서 가져오기 실패 시 처리
                     callback.onComplete(false);
                 }
             }

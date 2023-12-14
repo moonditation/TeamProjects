@@ -54,7 +54,6 @@ public class active_and_time_in_promise_info extends Fragment {
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -73,7 +72,6 @@ public class active_and_time_in_promise_info extends Fragment {
                     String promiseName = document.getString("promiseName");
                     Timestamp promiseTimestamp = document.getTimestamp("promiseDate");
 
-                    // 가져온 promiseName 값을 TextView에 설정
                     if (promiseName != null) {
                         TextView textView = getView().findViewById(R.id.promise_name);
                         textView.setText(promiseName);
@@ -98,20 +96,19 @@ public class active_and_time_in_promise_info extends Fragment {
                             .get()
                             .addOnCompleteListener(task2 -> {
                                 if (task2.isSuccessful()) {
-                                    int friendsCount = task2.getResult().size(); // 서브컬렉션의 문서 개수
+                                    int friendsCount = task2.getResult().size();
                                     TextView textView = getView().findViewById(R.id.all_of_members);
                                     textView.setText("" + friendsCount);
                                 } else {
-                                    // 작업 실패 처리
                                 }
                             });
 
                     docRef.collection("friends")
-                            .whereEqualTo("friendArrive", false) // friendsArrive 필드가 false인 문서 필터링
+                            .whereEqualTo("friendArrive", false)
                             .get()
                             .addOnCompleteListener(task2 -> {
                                 if (task2.isSuccessful()) {
-                                    int friendsCount = task2.getResult().size(); // 서브컬렉션의 문서 개수
+                                    int friendsCount = task2.getResult().size();
                                     TextView textView = getView().findViewById(R.id.late_members);
                                     textView.setText("" + friendsCount);
 
@@ -125,7 +122,6 @@ public class active_and_time_in_promise_info extends Fragment {
                                             }
                                         }
 
-                                        // 친구들의 이름을 가져왔으니 이를 EditText에 설정하여 출력합니다.
                                         StringBuilder namesBuilder = new StringBuilder();
                                         for (String name : friendNames) {
                                             namesBuilder.append(name).append("\n");
@@ -137,7 +133,6 @@ public class active_and_time_in_promise_info extends Fragment {
 
 
                                 } else {
-                                    // 작업 실패 처리
                                 }
                             });
 

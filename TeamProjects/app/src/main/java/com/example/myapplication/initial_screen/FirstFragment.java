@@ -54,7 +54,6 @@ public class FirstFragment extends Fragment {
                         binding.userIdFirst.setText(userId);
                         binding.userNameFirst.setText(userName);
                     } else {
-                        // 작업 실패
                     }
                 }
             });
@@ -70,10 +69,8 @@ public class FirstFragment extends Fragment {
             public void onClick(View view) {
                 Log.d("MGR", "log out");
                 FirebaseAuth.getInstance().signOut();
-                // 액티비티 간에 이동을 위한 Intent 생성
                 Intent intent = new Intent(requireContext(), log_in.class);
 
-                // 백스택에 쌓인 다른 액티비티들을 모두 제거하고 로그인 액티비티를 시작
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }

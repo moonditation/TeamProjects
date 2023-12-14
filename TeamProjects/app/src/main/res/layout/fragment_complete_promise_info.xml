@@ -101,15 +101,7 @@
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="15sp"/>
-                <TextView
-                    android:id="@+id/promise_time"
-                    android:layout_marginStart="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="~~ : ~~"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -131,12 +123,14 @@
                         android:textColor="@color/lavender"
                         android:textSize="20sp"/>
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/promise_location"
                         android:layout_marginStart="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="~~~~시 ~구 ~동"
+                        android:background="@drawable/image_button"
+                        android:drawableLeft="@drawable/loaction"
+                        android:text="약속장소 보기"
                         android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:singleLine="true"
@@ -163,25 +157,12 @@
                         android:text="함께하는 친구 목록"
                         android:textAlignment="viewStart"
                         android:textColor="@color/lavender"
-                        android:textSize="20sp" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/edit_promise"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/pass_prom"
-                        android:text="저정하기"
-                        android:background="@drawable/image_button"
-                        android:textColor="@color/lavender"
-                        android:textSize="15sp"/>
+                        android:textSize="20sp"/>
                 </LinearLayout>
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/added_friend_list">
+                    android:id="@+id/add_friend_complete">
 
                 </FrameLayout>
             </LinearLayout>
@@ -189,5 +170,6 @@
 
 
     </FrameLayout>
+
 
 </LinearLayout>

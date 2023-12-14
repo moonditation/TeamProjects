@@ -83,9 +83,11 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
 
 
     private Handler locationUpdateHandler = new Handler();
-    private int locationUpdateInterval = 5000; // 5초 간격
+    private int locationUpdateInterval = 5000;
     private CollectionReference friendCollectionRef;
     private String myUid;
+
+    private DocumentReference myDocumentReference;
 
 
     @Override
@@ -98,7 +100,6 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
                 finish();
             }
         });
@@ -119,9 +120,20 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 if (querySnapshot != null) {
+                    List<String> friendNames = new ArrayList<>();
+
                     int numOfButtons = querySnapshot.size();
                     Log.d("collection", ""+numOfButtons);
-                    makeButtons(numOfButtons);
+                    for (QueryDocumentSnapshot document : querySnapshot) {
+                        String friendName = document.getString("friendName");
+                        Log.d("friendName bb",friendName+"");
+
+                        if (friendName != null) {
+                            friendNames.add(friendName);
+                        }
+                    }
+                    makeButtons(numOfButtons, friendNames);
+
                 } else {
                     Log.d("collection", "쿼리 스냅샷이 null입니다.");
                 }
@@ -133,23 +145,19 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         myUid = user.getUid();
 
-        // 업데이트 버튼 클릭 시 처리할 코드
         updateButton = findViewById(R.id.update_button);
         updateButton.setOnClickListener(v -> {
             getCollectionAndMakeMemberTest(0);
         });
 
-        // 약속장소 버튼 클릭 시 처리할 코드
         promisePlace = findViewById(R.id.primise_location_move_button);
         promisePlace.setOnClickListener(v -> {
             getCollectionAndMakeMemberTest(1);
         });
 
 
-        // fusedLocationClient 초기화
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        // 위치 업데이트 시작
         startLocationUpdates();
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
         startEveryLocationUpdates();
@@ -174,7 +182,6 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
                     Double longitude = (Double) data.get("friendLongitude");
 
                     if (latitude != null && longitude != null) {
-                        // 마커와 인포윈도우 추가
                         Marker marker = new Marker();
                         marker.setPosition(new LatLng(latitude, longitude));
                         markerList.add(marker);
@@ -184,7 +191,7 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
                             @NonNull
                             @Override
                             public CharSequence getText(@NonNull InfoWindow infoWindow) {
-                                return "이름 : " + name + "\nlatitude : " + latitude + "\nlongitude : " + longitude;
+                                return "이름 : " + name;
                             }
                         });
                         infoWindowList.add(infoWindow);
@@ -192,7 +199,6 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
                         Log.d(TAG, "잘못된 위경도 데이터: " + data);
                     }
                 }
-                // 모든 마커와 인포윈도우를 지도에 추가
                 addMarkersToMap();
 
                 if (!markerList.isEmpty() && codeNum == 1) {
@@ -220,7 +226,6 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
                     });
                 }
 
-                // 특정 위치에 원 추가
                 if (!markerList.isEmpty()) {
                     DocumentReference documentReference = db.collection("promisesPractice").document(getIntent().getStringExtra("promiseUid"));
 
@@ -259,7 +264,6 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
             marker.setMap(naverMap);
             infoWindow.open(marker);
 
-            //클릭하면 infoWindow 나옴
             marker.setOnClickListener(overlay -> {
                 if (marker.getInfoWindow() == null) {
                     infoWindow.open(marker);
@@ -271,15 +275,18 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
-    private void makeButtons(int numOfButtons) {
+    private void makeButtons(int numOfButtons, List<String> friendNames) {
         RelativeLayout layout = findViewById(R.id.activity_real_layout);
         int prevButtonId = R.id.update_button;
 
         for (int i = 0; i < numOfButtons; i++) {
             Button memberButton = new Button(this);
             memberButton.setId(View.generateViewId());
-            memberButton.setText("Member " + (i + 1));
-
+            if (i < friendNames.size()) {
+                memberButton.setText(friendNames.get(i));
+            } else {
+                memberButton.setText("Friend " + (i + 1));
+            }
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT
@@ -289,13 +296,13 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
             if (i > 0) {
                 params.addRule(RelativeLayout.RIGHT_OF, prevButtonId);
             } else {
-                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT); // 첫 번째 버튼을 왼쪽에 정렬
+                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             }
 
             memberButton.setLayoutParams(params);
             layout.addView(memberButton);
 
-            prevButtonId = memberButton.getId(); // 다음 버튼을 오른쪽으로 배치하기 위해 ID 업데이트
+            prevButtonId = memberButton.getId();
 
             int finalI = i;
             memberButton.setOnClickListener(v -> {
@@ -310,30 +317,28 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
 
     private void removeMarkersAndInfoWindows() {
         for (Marker marker : markerList) {
-            marker.setMap(null); // 마커 제거
+            marker.setMap(null);
         }
 
-        markerList.clear(); // 리스트 초기화
+        markerList.clear();
 
         for (InfoWindow infoWindow : infoWindowList) {
-            infoWindow.close(); // 인포윈도우 닫기
+            infoWindow.close();
         }
-        infoWindowList.clear(); // 리스트 초기화
+        infoWindowList.clear();
     }
 
     private void makeSafeCircleZone(LatLng latLng) {
         CircleOverlay circle = new CircleOverlay();
         circle.setCenter(latLng);
-        circle.setRadius(300); // 원의 반지름 설정 (미터)
+        circle.setRadius(300);
         circle.setColor(Color.argb(128, 255, 0, 0));
         circle.setMap(naverMap);
 
         safeCircleList.add(circle);
 
-        // 클릭 시 원 안에 있는 마커를 찾아서 업데이트
         for (Marker marker : markerList) {
             if (circle.getBounds().contains(marker.getPosition())) {
-                // 원 안에 해당 마커가 포함된 경우 Firestore 문서 업데이트
                 updateInCircleFirestoreDocument(marker);
                 break;
             }
@@ -341,9 +346,6 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
 
     }
     private void updateInCircleFirestoreDocument(Marker marker) {
-        // Firestore 문서 업데이트 로직
-        // marker를 기준으로 Firestore 문서를 찾아서 업데이트하는 코드를 작성합니다.
-        // 예시: "members" 컬렉션에서 특정 조건을 만족하는 문서를 찾아 필드를 업데이트합니다.
 
         friendCollectionRef
                 .whereEqualTo("friendLatitude", marker.getPosition().latitude)
@@ -352,9 +354,8 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            // 해당 문서의 필드 업데이트
                             if((boolean)document.get("friendArrive")==false){
-                                document.getReference().update("friendArrive", true); // "arrive" 필드를 1로 업데이트
+                                document.getReference().update("friendArrive", true);
 
                                 Timestamp timestamp = com.google.firebase.Timestamp.now();
                                 document.getReference().update("friendArriveTime", timestamp);
@@ -369,30 +370,26 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
 
     private void removeSafeCircleZone() {
         for (CircleOverlay circleOverlay : safeCircleList) {
-            circleOverlay.setMap(null); // CircleOverlay 제거
+            circleOverlay.setMap(null);
         }
-        safeCircleList.clear(); // 리스트 초기화
+        safeCircleList.clear();
     }
 
 
     private Runnable locationUpdateRunnable = new Runnable() {
         @Override
         public void run() {
-            // 위치 업데이트 로직을 실행합니다.
-            getCollectionAndMakeMemberTest(0); // 위치 업데이트 메서드 호출
+            getCollectionAndMakeMemberTest(0);
 
-            // 다음 위치 업데이트를 예약합니다.
             locationUpdateHandler.postDelayed(this, locationUpdateInterval);
         }
     };
 
     private void startEveryLocationUpdates() {
-        // 일정 시간마다 위치 업데이트를 호출하는 Runnable을 실행합니다.
         locationUpdateHandler.postDelayed(locationUpdateRunnable, locationUpdateInterval);
     }
 
     private void stopLocationUpdates() {
-        // 위치 업데이트를 중지합니다.
         locationUpdateHandler.removeCallbacks(locationUpdateRunnable);
     }
 
@@ -401,7 +398,6 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void run() {
                 getLocationAndUpload();
-                // 5초 후에 다시 호출
                 delayedLocationUpdate();
             }
         };
@@ -409,12 +405,10 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void delayedLocationUpdate() {
-        // 5초 후에 위치 업데이트 메소드 호출
         new Handler().postDelayed(this::getLocationAndUpload, 5000);
     }
 
     private void getLocationAndUpload() {
-        // 위치 정보 가져오기
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -427,7 +421,6 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
                             double latitude = location.getLatitude();
                             double longitude = location.getLongitude();
 
-                            // Firestore에 업로드
                             uploadToFirestore(latitude, longitude);
                         } else {
                             Log.e(TAG, "Failed to get location.");
@@ -437,18 +430,15 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
     }
     ///////////////////////여기 해야
     private void uploadToFirestore(double latitude, double longitude) {
-        // Firestore에 데이터 업로드
         Map<String, Object> data = new HashMap<>();
         data.put("friendLatitude", latitude);
         data.put("friendLongitude", longitude);
 
 
-        // 사용자 UID와 같은 이름의 문서를 찾아 데이터 업데이트
         friendCollectionRef.whereEqualTo("friendUid", myUid)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        // 사용자의 UID와 일치하는 문서를 찾았을 때 데이터 업데이트
                         documentSnapshot.getReference().update(data)
                                 .addOnSuccessListener(aVoid ->
                                         Log.d(TAG, "DocumentSnapshot updated with ID: " + documentSnapshot.getId()))
@@ -465,7 +455,7 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
                                            @NonNull String[] permissions,  @NonNull int[] grantResults) {
         if (locationSource.onRequestPermissionsResult(
                 requestCode, permissions, grantResults)) {
-            if (!locationSource.isActivated()) { // 권한 거부됨
+            if (!locationSource.isActivated()) {
                 naverMap.setLocationTrackingMode(LocationTrackingMode.None);
             }
             return;
@@ -476,13 +466,10 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
-        // NaverMap 객체에 위치 소스 설정
         naverMap.setLocationSource(locationSource);
 
-        // 위치 추적 모드 설정 (원하는 경우)
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
-        // 사용자에게 위치 권한 요청
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this,
@@ -492,7 +479,6 @@ public class NaverMapRealNew extends AppCompatActivity implements OnMapReadyCall
             return;
         }
 
-        // 위치 권한이 허용되어 있으면 현재 위치 표시
         naverMap.getUiSettings().setLocationButtonEnabled(true);
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);

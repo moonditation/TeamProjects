@@ -66,7 +66,6 @@ public class received_promise_info extends Fragment {
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -84,14 +83,12 @@ public class received_promise_info extends Fragment {
                 if (document.exists()) {
                     String promiseName = document.getString("promiseName");
 
-                    // 가져온 promiseName 값을 TextView에 설정
                     if (promiseName != null) {
-                        TextView textView = getView().findViewById(R.id.promise_name); // 이 부분은 실제로 해당 TextView의 ID로 변경해야 합니다.
+                        TextView textView = getView().findViewById(R.id.promise_name);
                         textView.setText(promiseName);
                     }
                 }
             } else {
-                // 가져오기 실패 처리
             }
         });
 

@@ -34,10 +34,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/image_button"
-                android:drawableStart="@drawable/pencil"
+                android:drawableStart="@drawable/info"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:text="약속 수정"
+                android:text="약속 정보"
                 android:textColor="@color/blue_6"
                 />
 

@@ -46,7 +46,6 @@ public class late_list_click extends Fragment {
         db = FirebaseFirestore.getInstance();
         Bundle bundle = getArguments();
 
-        // 리사이클러뷰 설정
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_late_member);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -59,20 +58,16 @@ public class late_list_click extends Fragment {
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
                             String promiseName = documentSnapshot.getString("promiseName");
-                            // 가져온 promiseName 값을 TextView에 설정
 
                             TextView promiseNameTextView = view.findViewById(R.id.promise_name);
                             promiseNameTextView.setText(promiseName);
 
                             Timestamp promiseTimestamp = documentSnapshot.getTimestamp("promiseDate");
                             if (promiseTimestamp != null) {
-                                // 가져온 타임스탬프를 Date 객체로 변환
                                 Date date = promiseTimestamp.toDate();
 
-                                // 날짜와 시간 형식 지정
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
-                                // 형식에 맞게 문자열로 변환하여 TextView에 설정
                                 TextView promiseDateTimeTextView = view.findViewById(R.id.promise_date_time);
                                 promiseDateTimeTextView.setText(dateFormat.format(date));
                             }
@@ -83,7 +78,6 @@ public class late_list_click extends Fragment {
 
 
                         } else {
-                            // 문서가 존재하지 않을 때 처리
                         }
                     });
 
@@ -93,23 +87,18 @@ public class late_list_click extends Fragment {
                     .collection("friends")
                     .get()
                     .addOnSuccessListener(collectionSnapshot -> {
-                        //모든 friends 컬렉션 안에 있는 문서들에서 friendName필드랑 friendId 필드의 값을 받아와 밑에 형식대로 만들어줘
                         List<User> dataList = new ArrayList<>();
 
                         for (DocumentSnapshot document : collectionSnapshot.getDocuments()) {
-                            // 친구 이름
                             String friendName = document.getString("friendName");
 
-                            // 친구 ID
                             String friendId = document.getString("friendId");
 
-                            // 지각한 친구인지 여부
                             String friendUid = document.getString("friendUid");
 
 
                             User user = new User(friendName, friendId, friendUid);
 
-                            // 리스트 추가
                             dataList.add(user);
 
                         }

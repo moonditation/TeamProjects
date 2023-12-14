@@ -56,7 +56,6 @@ public class Friend_received_adapter extends RecyclerView.Adapter<Friend_receive
         binding.requestAcceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 1. db에서 요청 필드의 status="accepted"로 업데이트
                 acceptFriendRequest(position);
             }
         });
@@ -92,7 +91,6 @@ public class Friend_received_adapter extends RecyclerView.Adapter<Friend_receive
     private void acceptFriendRequest(int position) {
         String senderUid = userList.get(position).getUid();
 
-        // 1. DB에서 요청 필드의 status="accepted"로 업데이트
         db.collection("friendRequests")
                 .whereEqualTo("senderUid", senderUid)
                 .whereEqualTo("receiverUid", currentUserUid)
@@ -104,7 +102,6 @@ public class Friend_received_adapter extends RecyclerView.Adapter<Friend_receive
                             DocumentReference requestRef = document.getReference();
                             requestRef.update("status", "accepted")
                                     .addOnSuccessListener(aVoid -> {
-                                        // 2. status="accepted" 일 때, users 컬렉션의 내 friends에 추가
                                         Log.d("FriendRequest", "status=accepted로 업데이트 완료");
                                         addSenderToMyFriendsCollection(senderUid, position);
                                     })
@@ -186,7 +183,6 @@ public class Friend_received_adapter extends RecyclerView.Adapter<Friend_receive
     }
 
     private void deleteFriendRequest(String senderUid, int position) {
-        // 3. 요청 DB에서 문서를 삭제 -> 리사이클러뷰에서 삭제
         db.collection("friendRequests")
                 .whereEqualTo("senderUid", senderUid)
                 .whereEqualTo("receiverUid", currentUserUid)
@@ -197,7 +193,6 @@ public class Friend_received_adapter extends RecyclerView.Adapter<Friend_receive
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             document.getReference().delete()
                                     .addOnSuccessListener(aVoid -> {
-                                        // 리사이클러뷰에서 해당 아이템 삭제
                                         userList.remove(position);
                                         notifyItemRemoved(position);
                                     })
@@ -210,7 +205,6 @@ public class Friend_received_adapter extends RecyclerView.Adapter<Friend_receive
     }
 
     private void rejectFriendRequest(String senderUid, int position) {
-        // 3. 요청 DB에서 문서를 삭제 -> 리사이클러뷰에서 삭제
         db.collection("friendRequests")
                 .whereEqualTo("senderUid", senderUid)
                 .whereEqualTo("receiverUid", currentUserUid)
@@ -221,7 +215,6 @@ public class Friend_received_adapter extends RecyclerView.Adapter<Friend_receive
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             document.getReference().delete()
                                     .addOnSuccessListener(aVoid -> {
-                                        // 리사이클러뷰에서 해당 아이템 삭제
                                         Toast.makeText(binding.getRoot().getContext(), "요청을 거절했습니다.", Toast.LENGTH_SHORT).show();
                                         userList.remove(position);
                                         notifyItemRemoved(position);

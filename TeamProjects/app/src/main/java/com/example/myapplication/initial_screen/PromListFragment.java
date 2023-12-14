@@ -39,7 +39,6 @@ public class PromListFragment extends Fragment {
         fragmentTransaction.replace(R.id.prom_list, none_click_promise_list);
         fragmentTransaction.commit();
 
-        // 활성화된 약속클릭
         AppCompatButton active_prom_button_click = view.findViewById(R.id.active_prom);
         active_prom_button_click.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +52,6 @@ public class PromListFragment extends Fragment {
             }
         });
 
-        // 확정된 약속클릭
         AppCompatButton completed_prom_button_click = view.findViewById(R.id.complete_prom);
         completed_prom_button_click.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +65,6 @@ public class PromListFragment extends Fragment {
             }
         });
 
-        // 대기중인 약속클릭
         AppCompatButton waiting_prom_button_click = view.findViewById(R.id.waiting_prom);
         waiting_prom_button_click.setOnClickListener(new View.OnClickListener() {
             @Override

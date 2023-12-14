@@ -12,7 +12,6 @@ import com.example.myapplication.R;
 public class none_click_promise_list extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.none_click_prom_list, container, false);
     }
 }

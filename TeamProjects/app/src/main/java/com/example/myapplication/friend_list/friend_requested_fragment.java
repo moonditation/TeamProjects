@@ -55,11 +55,9 @@ public class friend_requested_fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 리사이클러뷰 설정
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView_adding_friend);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // 어댑터와 데이터 연결
 //        dataList = generateData(); // 데이터 생성
         userList = new ArrayList<>();
         fetchAllUsers();
@@ -90,11 +88,9 @@ public class friend_requested_fragment extends Fragment {
 
         wordInput();
 
-        // 프래그먼트 2의 종료 이벤트 처리
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 프래그먼트 2 종료 후 프래그먼트 1로 돌아가기
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -102,7 +98,6 @@ public class friend_requested_fragment extends Fragment {
     }
 //    private List<User> generateData() {
 //        dataList = new ArrayList<>();
-//        // 데이터를 원하는대로 추가
 //        dataList.add(new User("이우혁", "7dngur7"));
 //        dataList.add(new User("문관록","gr1004"));
 //        dataList.add(new User("이종민","ljm0000"));
